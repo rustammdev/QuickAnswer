@@ -1,0 +1,248 @@
+<!-- Navbar -->
+<nav class="bg-gray-800 p-4">
+  <div
+    class="container mx-auto flex flex-wrap items-center justify-between"
+  >
+    <!-- logo -->
+    <div class="flex justify-center items-center gap-2">
+      <span
+        class="text-xl text-white font-semibold"
+      >QuickAnswer</span>
+      <img
+        src="../question1-svgrepo-com.png"
+        class="rotate-12"
+        alt="logo png"
+        width="30"
+        height="30"
+      />
+    </div>
+
+    <ul class="hidden w-full lg:flex lg:items-center lg:w-auto">
+      <li class="mr-6">
+        <a
+          href="/"
+          class="text-white hover:text-gray-400 transition duration-300"
+        >Home</a>
+      </li>
+      <li class="mr-6">
+        <a
+          href="#"
+          class="text-white hover:text-gray-400 transition duration-300"
+        >About</a>
+      </li>
+      <li class="mr-6">
+        <a
+          href="#"
+          class="text-white hover:text-gray-400 transition duration-300"
+        >Contact</a>
+      </li>
+    </ul>
+
+    <!-- Qalqib chiquvchi oyna -->
+    <div class="flex gap-2">
+      <button
+        class="bg-blue-500 text-white px-6 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 hover:bg-[#273043] hover:outline-2 shadow-sm hover:shadow-indigo-500/40 transition duration-300"
+      >
+        You can send a question
+      </button>
+      <button
+        type="submit"
+        class="mt-2 md:mt-0 md:ml-3 px-4 py-2 bg-green-500 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 flex items-center"
+      >
+        <!-- <svg
+              class="w-4 h-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"></path>
+            </svg> -->
+        Login
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Home section -->
+<section class="container mx-auto p-6 mt-8">
+  <div class="flex flex-wrap -mx-3">
+    <!-- Chap qism -->
+    <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-0">
+      <div class="lg:w-[80%]">
+        <h2 class="text-2xl font-bold mb-4">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </h2>
+        <p class="mb-4">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+          Deleniti, minima. Recusandae qui nobis dolorem rerum!
+        </p>
+
+        <!-- Forma send question -->
+        <form
+          class="space-y-4"
+          id="sendMessageFrom"
+        >
+          <div>
+            <label
+              for="question_text"
+              class="block text-sm font-medium text-gray-700"
+            >Question text</label>
+            <textarea
+              name="question_text"
+              required
+              id="question_text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none"
+            ></textarea>
+          </div>
+
+          <div class="flex flex-wrap gap-2 space-y-2 md:space-y-0">
+            <div class="flex-1 md:flex-1/2">
+              <label
+                for="event-title"
+                class="block text-sm font-medium text-gray-700"
+              >Event ID</label>
+              <input
+                type="text"
+                id="event_id"
+                name="event_id"
+                required
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+            <div class="flex items-end">
+              <button
+                type="submit"
+                class="mt-2 md:mt-0 md:ml-3 px-4 py-2 bg-blue-500 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 flex items-center"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  ></path>
+                </svg>
+                Send Question
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- O'ng qism -->
+    <div
+      class="w-full lg:w-1/2 max-lg:mt-8 px-3 flex justify-center align-middle"
+    >
+      <form
+        method="post"
+        class="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4 border"
+      >
+        <p class="text-2xl font-bold mb-4">
+          Sign Up & Create your own Event
+        </p>
+
+        <div class="flex items-center justify-between">
+          <span class="flex-grow border-t border-gray-300"></span>
+          <span class="mx-4">Quick sign Up</span>
+          <span class="flex-grow border-t border-gray-300"></span>
+        </div>
+
+        <button
+          disabled
+          class="w-full bg-blue-900 text-white px-4 py-2 rounded-full flex items-center justify-center mt-4 relative focus:bg-cyan-700 cursor-pointer"
+        >
+          <span class="w-5 h-5 mr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+            >
+              <path
+                fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+              ></path>
+              <path
+                fill="#FF3D00"
+                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+              ></path>
+              <path
+                fill="#4CAF50"
+                d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+              ></path>
+              <path
+                fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+              ></path>
+            </svg>
+          </span>
+          Sign up with google
+        </button>
+
+        <p class="text-center">or use your email address</p>
+
+        <div class="flex space-x-2">
+          <input
+            type="text"
+            required
+            placeholder="Your first name"
+            class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+          <input
+            type="text"
+            required
+            placeholder="Your last name"
+            class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+        </div>
+
+        <input
+          type="email"
+          required
+          placeholder="Your email address"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+        <input
+          type="password"
+          required
+          placeholder="Pick a password"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+
+        <button
+          type="submit"
+          class="w-full bg-green-500 text-white px-4 py-2 rounded-full flex items-center justify-center mt-4"
+        >
+          <svg
+            class="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
+          Sign Up
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

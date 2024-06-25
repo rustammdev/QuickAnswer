@@ -1,20 +1,32 @@
-const express = require("express");
-const path = require("path");
-require("dotenv").config();
+import "dotenv/config";
+import express from "express";
+import { create } from "express-handlebars";
+import HomeRoute from "./routes/home.route.js";
+import SendQuestionRoute from "./routes/send.question.js"
 
 const app = express();
-// Routes
-const HomeRoute = require("./routes/home.route.js");
 
 // Default middlware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Statik fayllarni ulash
-app.use(express.static(path.join(__dirname, "src")));
+const hbs = create({
+  defaultLayout: "main",
+  extname: "hbs",
+});
+
+app.engine("hbs", hbs.engine);
+app.set("view engine", "hbs");
+app.set("views", "./views");
+
+// Public katalogini statik fayllar uchun o'rnating
+app.use(express.static("public"));
 
 // Home route
 app.use("/", HomeRoute);
+
+// Send questions
+app.use("/", SendQuestionRoute)
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {
@@ -22,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 6000;
+
 app.listen(PORT, () => {
   console.log(`Server runnign on Port: ${PORT}`);
 });
