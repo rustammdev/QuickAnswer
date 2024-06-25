@@ -2,9 +2,12 @@ import "dotenv/config";
 import express from "express";
 import { create } from "express-handlebars";
 import HomeRoute from "./routes/home.route.js";
+import RegisterRoute from "./routes/register.route.js";
 import SendQuestionRoute from "./routes/send.question.js";
+import connectDb from "./db/mongo.js";
 
 const app = express();
+connectDb();
 
 // Default middlware
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +30,9 @@ app.use("/", HomeRoute);
 
 // Send questions
 app.use("/event", SendQuestionRoute);
+
+// User registeration
+app.use("/register", RegisterRoute);
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {

@@ -1,13 +1,34 @@
-const SendQuestionController = (req, res) => {
+import SendQuestion from "../model/send.question.js";
+
+const SendQuestionController = async (req, res) => {
   try {
-    // const { question_text, event_id } = req.body;
-    // if (!question_text  || !event_id) {
-    //   return res.status(200).json({ message: "no" });
-    // }
-    console.log(req.body);
-    res.status(200).json({ message: "ok" });
+    const { event_id, question_text } = req.body;
+
+    if (!event_id || !asked_by || !question_text) {
+      return res
+        .status(400)
+        .json({
+          situation: "999",
+          message: "Kiritilgan malumotlar to'iq emas",
+        });
+      throw new Error("Malumotlar bo'sh bo'lmasligi kerak!");
+    }
+
+    // event mavjudlikka tekshirish
+    const event = await Event.findOne({ event_id: event_id });
+    if (!event) {
+      return res
+      .status(404)
+      .json({
+        situation: "222",
+        message: "Event topilmadi",
+      });
+    }
+
+    const question = await Question.create(req.body);
+    res.status(201).json({ message: "ok" });
   } catch (error) {
-    res.json({ error: `${error}` });
+    res.status(400).json({ message: error.message });
   }
 };
 

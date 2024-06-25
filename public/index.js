@@ -8,7 +8,7 @@ form.addEventListener("submit", async (e) => {
     const formData = {
       question_text: document.getElementById("question_text").value,
       event_id: document.getElementById("event_id").value,
-      asked_by: document.getElementById("asked_by").value
+      asked_by: document.getElementById("asked_by").value,
     };
 
     // e.preventDefault();
@@ -23,4 +23,33 @@ form.addEventListener("submit", async (e) => {
   } catch (error) {
     console.log("Xato:" + error);
   }
+});
+
+// User registeretion
+const RegisterForm = document.querySelector("#register_form");
+
+RegisterForm.addEventListener("submit", async (e) => {
+  try {
+    e.preventDefault();
+    const formData = {
+      first_name: document.getElementById("first_name").value,
+      last_name: document.getElementById("last_name").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+    };
+
+    // console.log(formData);
+
+    const response = await fetch("/register", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log('Data recived');
+  } catch (error) {
+    console.log("Xato:" + error);
+  }
+  console.log();
 });
