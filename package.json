@@ -1,10 +1,10 @@
 {
   "name": "qmarge-v1",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.html"
+    "dev": "nodemon server.html"
   },
   "keywords": [],
   "author": "",

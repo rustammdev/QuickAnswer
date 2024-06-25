@@ -6,6 +6,6 @@ const app = Router();
 // @desc Send question
 // @route /event/question
 // @acces Public
-app.post("/event/question", SendQuestionController);
+app.post("/question", SendQuestionController);
 
 export default app;

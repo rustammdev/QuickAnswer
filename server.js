@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { create } from "express-handlebars";
 import HomeRoute from "./routes/home.route.js";
-import SendQuestionRoute from "./routes/send.question.js"
+import SendQuestionRoute from "./routes/send.question.js";
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use("/", HomeRoute);
 
 // Send questions
-app.use("/", SendQuestionRoute)
+app.use("/event", SendQuestionRoute);
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {
