@@ -1,7 +1,7 @@
 import User from "../model/register.model.js";
 import bcrypt from "bcryptjs";
 
-const SendLoginController = async (req, res) => {
+const LoginController = async (req, res) => {
   try {
     let { email, password } = req.body;
     if (!email || !password) {
@@ -18,11 +18,15 @@ const SendLoginController = async (req, res) => {
         .json({ error: "You are not Registrated!" });
     }
 
-    if(!await bcrypt.compare(password, isAviable.password)){
-        console.log(false);
+    if (!(await bcrypt.compare(password, isAviable.password))) {
+      return res.status(400).json({ error: "Incorrect password!" });
     }
-    console.log(true);
-    res.status(201).send('ok');
+    console.log("True");
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      redirectTo: "/dashboard",
+    });
   } catch (error) {
     console.error("Registration error:", error);
     return res
@@ -31,4 +35,4 @@ const SendLoginController = async (req, res) => {
   }
 };
 
-export default SendLoginController;
+export default LoginController;

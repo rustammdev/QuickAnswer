@@ -111,6 +111,14 @@ LoginForm.addEventListener("submit", async (e) => {
       },
     });
     console.log("Data recived");
+    const data = await response.json();
+    if (response.ok) {
+      // Muvaffaqiyatli login bo'lsa, dashboardga yo'naltirish
+      window.location.href = data.redirectTo;
+    } else {
+      // Login xato bo'lsa, xato xabarini ko'rsatish
+      console.error("Login xato: " + data.message);
+    }
   } catch (error) {
     console.log("Xato: " + error);
   }

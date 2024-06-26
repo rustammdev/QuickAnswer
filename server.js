@@ -38,6 +38,11 @@ app.use("/register", RegisterRoute);
 // User login
 app.use("/login", LoginRoute);
 
+
+app.get('/dashboard', (req, res) => {
+  res.send('This is dashboard page')
+})
+
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {
   res.status(404).send("This route is not define");
