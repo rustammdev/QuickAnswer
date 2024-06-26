@@ -3,6 +3,7 @@ import express from "express";
 import { create } from "express-handlebars";
 import HomeRoute from "./routes/home.route.js";
 import RegisterRoute from "./routes/register.route.js";
+import LoginRoute from "./routes/login.route.js";
 import SendQuestionRoute from "./routes/send.question.js";
 import connectDb from "./db/mongo.js";
 
@@ -33,6 +34,9 @@ app.use("/event", SendQuestionRoute);
 
 // User registeration
 app.use("/register", RegisterRoute);
+
+// User login
+app.use("/login", LoginRoute);
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {

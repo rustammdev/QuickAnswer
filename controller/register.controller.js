@@ -1,27 +1,21 @@
 import User from "../model/register.model.js";
 import bcrypt from "bcryptjs";
 
-const SendQuestionController = async (req, res) => {
+const SendRegisterController = async (req, res) => {
   try {
     let { first_name, last_name, email, password } = req.body;
     if (!email || !password || !first_name || !last_name) {
-      return res.status(400).json({
-        // Don't complated content: 999
-        situation: "999",
-        message: "Kiritilgan malumotlar to'iq emas",
-      });
-      throw new Error("User malumotlari toliq emas!");
+      return res
+        .status(400)
+        .json({ error: "User ma'lumotlari to'liq emas!" });
     }
 
     // // User malumotlari db borlikka tekshirish
     const isAviable = await User.findOne({ email });
     if (isAviable) {
-      return res.status(400).json({
-        // IsAviable true: 222
-        situation: "222",
-        message: "Kiritilgan malumotlar to'iq emas",
-      });
-      throw new Error("User malumotlari allaqachon mavjud!");
+      return res
+        .status(400)
+        .json({ error: "User ma'lumotlari allaqachon mavjud!" });
     }
 
     // DB ga malumotlarni yozish
@@ -38,11 +32,14 @@ const SendQuestionController = async (req, res) => {
       email,
       password: hashed,
     });
-
-    res.status(201).json({ situation: "777", message: "ok" });
+    console.log("User registered");
+    res.status(201).send('ok');
   } catch (error) {
-    res.json({ error: `${error}` });
+    console.error("Registration error:", error);
+    return res
+      .status(500)
+      .json({ error: "Serverda xatolik yuz berdi" });
   }
 };
 
-export default SendQuestionController;
+export default SendRegisterController;

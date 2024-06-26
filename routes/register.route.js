@@ -3,7 +3,7 @@ import RegisterControl from "../controller/register.controller.js";
 const route = Router();
 
 // @desc Home
-// @route GET '/register'
+// @route POST '/register'
 // @access Public
 route.post("/", RegisterControl);
 

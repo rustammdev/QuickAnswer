@@ -6,12 +6,10 @@ const userSchem = mongoose.Schema(
     first_name: {
       type: String,
       required: [true, "Please add the first name"],
-      unique: true,
     },
     last_name: {
       type: String,
       required: [true, "Please add the last name"],
-      unique: true,
     },
     email: {
       type: String,
