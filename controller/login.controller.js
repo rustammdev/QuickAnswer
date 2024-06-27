@@ -14,24 +14,24 @@ const LoginController = async (req, res) => {
     const isAviable = await User.findOne({ email });
     if (!isAviable) {
       return res
-        .status(400)
-        .json({ error: "You are not Registrated!" });
+        .status(409)
+        .json({ message: "You are not Registered!" });
     }
 
     if (!(await bcrypt.compare(password, isAviable.password))) {
-      return res.status(400).json({ error: "Incorrect password!" });
+      return res.status(400).json({ message: "Incorrect password!" });
     }
     console.log("True");
     return res.status(200).json({
       success: true,
-      message: "Login successful",
+      message: "",
       redirectTo: "/dashboard",
     });
   } catch (error) {
     console.error("Registration error:", error);
     return res
       .status(500)
-      .json({ error: "Serverda xatolik yuz berdi" });
+      .json({ message: "Serverda xatolik yuz berdi" });
   }
 };
 

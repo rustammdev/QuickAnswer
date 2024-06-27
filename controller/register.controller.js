@@ -11,34 +11,31 @@ const SendRegisterController = async (req, res) => {
     }
 
     // // User malumotlari db borlikka tekshirish
-    const isAviable = await User.findOne({ email });
+    const isAviable = await User.findOne({ email: email });
     if (isAviable) {
-      return res
-        .status(400)
-        .json({ error: "User ma'lumotlari allaqachon mavjud!" });
+      console.log("User mavjud");
+      return res.status(409).json({
+        message: "Already registered with this email address.",
+      });
     }
 
     // DB ga malumotlarni yozish
     const hashed = await bcrypt.hash(password, 10);
-    console.log({
+    const userCreate = await User.create({
       first_name,
       last_name,
       email,
       password: hashed,
     });
-    const user = await User.create({
-      first_name,
-      last_name,
-      email,
-      password: hashed,
+    return res.status(201).json({
+      success: true,
+      message: "",
+      redirectTo: "/dashboard",
     });
-    console.log("User registered");
-    res.status(201).send('ok');
   } catch (error) {
-    console.error("Registration error:", error);
     return res
       .status(500)
-      .json({ error: "Serverda xatolik yuz berdi" });
+      .json({ message: "An error occurred on the server." });
   }
 };
 
