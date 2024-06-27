@@ -1,5 +1,5 @@
 const homeGetController = (req, res) => {
-  res.render("home");
+  res.status(200).render("home");
 };
 
 export default homeGetController;

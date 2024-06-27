@@ -114,6 +114,7 @@ LoginForm.addEventListener("submit", async (e) => {
     const data = await response.json();
     if (response.ok) {
       // Muvaffaqiyatli login bo'lsa, dashboardga yo'naltirish
+      closeModal();
       window.location.href = data.redirectTo;
     } else {
       // Login xato bo'lsa, xato xabarini ko'rsatish
