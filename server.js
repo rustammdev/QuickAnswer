@@ -40,7 +40,7 @@ app.use("/login", LoginRoute);
 
 
 app.get('/dashboard', (req, res) => {
-  res.send('This is dashboard page')
+  res.status(200).render("dashboard");
 })
 
 // Mavjud bo'lmagan rout uchun error
