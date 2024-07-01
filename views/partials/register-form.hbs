@@ -49,56 +49,58 @@
 
   <p class="text-center">or use your email address</p>
 
-<form id="register_form">
-  <div class="flex space-x-2">
-    <input
-      type="text"
-      id="first_name"
-      required
-      placeholder="Your first name"
-      class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-    />
-    <input
-      type="text"
-      id="last_name"
-      required
-      placeholder="Your last name"
-      class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-    />
-  </div>
-
-  <input
-    type="email"
-    id="email"
-    required
-    placeholder="Your email address"
-    class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-  />
-  <input
-    type="password"
-    id="password"
-    required
-    placeholder="Pick a password"
-    class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-  />
-  <span
-    id="ResponseMessageRegister"
-    class="text-left inline-block align-middle w-auto h-3 text-sm text-red-500 pl-[2px]"
-  ></span>
-
-  {{! Submit button }}
-  <button
-    type="submit"
-    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-2"
-  >
-    <div class="flex justify-center align-middle mr-[25%]">
-      <span
-        id="loader"
-        class="animate-spin loader absolute w-5 h-5 border-2 border-gray-200 border-t-blue-500 rounded-full hidden"
-      ></span>
+  <form id="register_form">
+    <div class="flex space-x-2">
+      <input
+        type="text"
+        id="first_name"
+        required
+        placeholder="Your first name"
+        class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
+      <input
+        type="text"
+        id="last_name"
+        required
+        placeholder="Your last name"
+        class="mt-1 block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
     </div>
 
-    Sign Up
-  </button>
-</form>
+    <input
+      type="email"
+      id="email"
+      required
+      placeholder="Your email address"
+      class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+    />
+    <input
+      type="password"
+      id="password"
+      required
+      placeholder="Pick a password"
+      class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+    />
+    <span
+      id="ResponseMessageRegister"
+      class="text-left inline-block align-middle w-auto h-3 text-sm text-red-500 pl-[2px]"
+    ></span>
+
+    {{! Submit button }}
+    <button
+      type="submit"
+      class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-2"
+    >
+      <div class="flex justify-center align-middle mr-[25%]">
+        <span
+          id="loader"
+          class="animate-spin loader absolute w-5 h-5 border-2 border-gray-200 border-t-blue-500 rounded-full hidden"
+        ></span>
+      </div>
+
+      Sign Up
+    </button>
+  </form>
 </div>
+
+<script src="./js/register.js"></script>

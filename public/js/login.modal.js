@@ -5,8 +5,7 @@ const loginModal = document.getElementById("loginModal");
 loginBtn.addEventListener("click", () => {
   loginModal.classList.remove("hidden");
   loginModal.classList.add("flex");
-  // setTimeout(() => {
-  // }, 20);
+
   loginModal
     .querySelector("div")
     .classList.add("translate-y-0", "opacity-100");

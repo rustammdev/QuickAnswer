@@ -8,8 +8,8 @@
     <div class="flex h-screen">
       <!-- Sidebar -->
       {{>sidebar}}
+
       <!-- Main Content -->
-      <!-- sm:p-6 md:px-12 lg:px-16 xl:px-18 2xl:px-20 -->
       <div
         class="flex-1 p-2 sm:px-6 lg:w-[8px] h-screen overflow-y-auto bg-[#ffffff] text-black"
       >
@@ -37,7 +37,7 @@
         <div>
           <div class="flex flex-col justify-between w-full">
             <div
-              class="flex flex-col sm:flex-row p-2 md:p-4 mt-2 rtl:space-x-reverse text-black sm:divide-x divide-y sm:divide-y-0 rtl:divide-x-reverse divide-gray-200 sm:rounded-lg dark:divide-gray-700 border border-gray-700 space-x"
+              class="flex flex-col sm:flex-row p-2 md:p-4 mt-2 rtl:space-x-reverse text-black sm:divide-x divide-y sm:divide-y-0 rtl:divide-x-reverse divide-gray-200 sm:rounded-lg  border border-gray-700 space-x"
               role="alert"
             >
               <div
@@ -50,7 +50,7 @@
                 class="sm:ps-4 p-2 text-sm font-normal w-full md:flex justify-center align-middle gap-2"
               >
                 Number of sections:
-                <span class="text-red-400"> No genereted!</span>
+                <span class="text-red-400"> No genereted.</span>
               </div>
             </div>
 
@@ -102,12 +102,13 @@
             </div>
           </div>
         </div>
-        {{>footer}}
-
+      {{>footer}}
+      {{>createEvent}}
       </div>
       <!--main content end-->
     </div>
 
-    <script>
+
+
+
    
-    </script>

@@ -1,5 +1,5 @@
-import mongoose, { mongo } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose, { mongo } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 const eventScheme = mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const eventScheme = mongoose.Schema(
     },
     event_name: {
       type: String,
-      required: [true, 'Please create the event name'],
+      required: [true, "Please create the event name"],
     },
 
     // Event haqida qisqa malumot berib ketiladi
@@ -20,15 +20,26 @@ const eventScheme = mongoose.Schema(
       default: "Savollarni yo'llang >>>",
     },
 
+    event_link: {
+      type: String,
+      required: false,
+      default : "Event manzili mavjud emas."
+    },
+
+    end_date: {
+      type: String,
+      required: [true, "Please add the end date"],
+    },
+
     //   Ushbu id avtamatik joylashadi event yaratgan insonniki
     // created_by == user_id
     created_by: {
       type: String,
-      required: [true, 'Please add the id'],
+      required: [true, "Please add the id"],
     },
   },
   { timestamps: true }
 );
 
-const model = mongoose.model('events', eventScheme);
+const model = mongoose.model("events", eventScheme);
 export default model;

@@ -5,6 +5,7 @@ import HomeRoute from "./routes/home.route.js";
 import RegisterRoute from "./routes/register.route.js";
 import LoginRoute from "./routes/login.route.js";
 import SendQuestionRoute from "./routes/send.question.js";
+import CreateEventRoute from "./routes/events.route.js";
 import { dashboardController } from "./controller/dashboard.controller.js";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/mongo.js";
@@ -46,10 +47,14 @@ app.use("/login", LoginRoute);
 // Dashboard
 app.get("/dashboard", dashboardController);
 
+// Create event
+app.use("/events", CreateEventRoute);
 // 404
 app.get("/404", (req, res) => {
-  res.render("404")
-})
+  res.render("404", {
+    title: "Not Found | Qmarge",
+  });
+});
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {

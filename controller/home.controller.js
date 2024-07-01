@@ -19,15 +19,17 @@ const homeGetController = async (req, res) => {
         }
         return res.status(200).redirect("/404");
       } catch (error) {
-        return res.status(200).render("home");
+        return res.status(200).render("home", {
+          title: "Home | Qmarge",
+        });
       }
     }
-    return res.status(200).render("home");
+    return res.status(200).render("home", {
+      title: "Home | Qmarge",
+    });
   } catch (error) {
     console.log(error);
   }
 };
 
 export default homeGetController;
-
-					

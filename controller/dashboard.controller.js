@@ -7,7 +7,7 @@ const dashboardController = async (req, res) => {
 
   if (!cookies || !cookies.token) {
     // .send("Unauthorized: JWT must be provided")
-    return res.status(401).redirect("/404");
+    return res.status(401).redirect("/");
   }
 
   try {
@@ -18,7 +18,9 @@ const dashboardController = async (req, res) => {
       return res.status(404).redirect("/404");
     }
 
-    return res.status(200).render("dashboard");
+    return res.status(200).render("dashboard", {
+      title : "Dashboard | Qmarge"
+    });
   } catch (err) {
     return res
       .status(401)
