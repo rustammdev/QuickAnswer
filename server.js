@@ -5,6 +5,8 @@ import HomeRoute from "./routes/home.route.js";
 import RegisterRoute from "./routes/register.route.js";
 import LoginRoute from "./routes/login.route.js";
 import SendQuestionRoute from "./routes/send.question.js";
+import { dashboardController } from "./controller/dashboard.controller.js";
+import cookieParser from "cookie-parser";
 import connectDb from "./db/mongo.js";
 
 const app = express();
@@ -23,6 +25,9 @@ app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", "./views");
 
+// cookieParser middleware
+app.use(cookieParser());
+
 // Public katalogini statik fayllar uchun o'rnating
 app.use(express.static("public"));
 
@@ -38,14 +43,17 @@ app.use("/register", RegisterRoute);
 // User login
 app.use("/login", LoginRoute);
 
+// Dashboard
+app.get("/dashboard", dashboardController);
 
-app.get('/dashboard', (req, res) => {
-  res.status(200).render("dashboard");
+// 404
+app.get("/404", (req, res) => {
+  res.render("404")
 })
 
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {
-  res.status(404).send("This route is not define");
+  res.status(404).redirect("/404");
 });
 
 const PORT = process.env.PORT || 6000;

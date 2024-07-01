@@ -1,5 +1,6 @@
 import User from "../model/register.model.js";
 import bcrypt from "bcryptjs";
+import { generateJwtToken } from "../services/token.js";
 
 const SendRegisterController = async (req, res) => {
   try {
@@ -13,7 +14,6 @@ const SendRegisterController = async (req, res) => {
     // // User malumotlari db borlikka tekshirish
     const isAviable = await User.findOne({ email: email });
     if (isAviable) {
-      console.log("User mavjud");
       return res.status(409).json({
         message: "Already registered with this email address.",
       });
@@ -27,7 +27,12 @@ const SendRegisterController = async (req, res) => {
       email,
       password: hashed,
     });
-    return res.status(201).json({
+
+    // Token genereted
+    const token = generateJwtToken({ user_id: userCreate.user_id });
+
+    // Token save cooking
+    return res.status(201).cookie("token", token).json({
       success: true,
       message: "",
       redirectTo: "/dashboard",

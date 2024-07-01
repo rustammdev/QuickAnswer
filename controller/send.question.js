@@ -11,7 +11,6 @@ const SendQuestionController = async (req, res) => {
           situation: "999",
           message: "Kiritilgan malumotlar to'iq emas",
         });
-      throw new Error("Malumotlar bo'sh bo'lmasligi kerak!");
     }
 
     // event mavjudlikka tekshirish

@@ -25,6 +25,8 @@ document.addEventListener("keydown", (e) => {
 });
 
 function closeModal() {
+  LoginForm.reset();
+  ResponseMessageLogin.textContent = ``;
   loginModal
     .querySelector("div")
     .classList.remove("translate-y-0", "opacity-100");
@@ -63,11 +65,12 @@ LoginForm.addEventListener("submit", async (e) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Data recived");
+
     const data = await response.json();
     if (response.ok) {
       // Muvaffaqiyatli login bo'lsa, dashboardga yo'naltirish
       window.location.href = data.redirectTo;
+      closeModal();
       LoaderLogin.classList.add("hidden");
     } else {
       // Login xato bo'lsa, xato xabarini ko'rsatish

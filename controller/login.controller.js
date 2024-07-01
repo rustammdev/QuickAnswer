@@ -1,5 +1,6 @@
 import User from "../model/register.model.js";
 import bcrypt from "bcryptjs";
+import { generateJwtToken } from "../services/token.js";
 
 const LoginController = async (req, res) => {
   try {
@@ -21,8 +22,11 @@ const LoginController = async (req, res) => {
     if (!(await bcrypt.compare(password, isAviable.password))) {
       return res.status(400).json({ message: "Incorrect password!" });
     }
-    console.log("True");
-    return res.status(200).json({
+
+    // Token genereted
+    const token = generateJwtToken({ user_id: isAviable.user_id });
+
+    return res.status(200).cookie("token", token).json({
       success: true,
       message: "",
       redirectTo: "/dashboard",
