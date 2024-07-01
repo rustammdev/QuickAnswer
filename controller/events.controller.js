@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import Event from "../model/create.event.js";
 import "dotenv/config";
 
-const CreateEvent = (req, res) => {
+const CreateEvent = async (req, res) => {
   try {
     let { event_name, event_desc, event_link, end_date } = req.body;
     const cookies = req.cookies;
@@ -14,11 +15,15 @@ const CreateEvent = (req, res) => {
       end_date,
       created_by: data.user_id,
     };
-    console.log(eventData);
+
+    const event = await Event.create(eventData);
+
+    return res.status(200).json({
+      message: "Event created",
+    });
   } catch (error) {
     return res.status(500).json({ message: `${error}` });
   }
-  res.status(200).json({ message: "ok" });
 };
 
 export { CreateEvent };

@@ -6,7 +6,7 @@ import RegisterRoute from "./routes/register.route.js";
 import LoginRoute from "./routes/login.route.js";
 import SendQuestionRoute from "./routes/send.question.js";
 import CreateEventRoute from "./routes/events.route.js";
-import { dashboardController } from "./controller/dashboard.controller.js";
+import DashboardRoute from "./routes/dashboard.route.js";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/mongo.js";
 
@@ -20,6 +20,15 @@ app.use(express.json());
 const hbs = create({
   defaultLayout: "main",
   extname: "hbs",
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  },
+  helpers: {
+    json: function (context) {
+      return JSON.stringify(context, null, 2);
+    },
+  },
 });
 
 app.engine("hbs", hbs.engine);
@@ -45,7 +54,7 @@ app.use("/register", RegisterRoute);
 app.use("/login", LoginRoute);
 
 // Dashboard
-app.get("/dashboard", dashboardController);
+app.use("/dashboard", DashboardRoute);
 
 // Create event
 app.use("/events", CreateEventRoute);

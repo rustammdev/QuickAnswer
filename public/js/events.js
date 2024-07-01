@@ -5,6 +5,9 @@ const CreateEventBtn = document.getElementById("CreateEvent");
 const CreateEventModal = document.getElementById("CreateEventModal");
 const closeEventModal = document.querySelector("#closeEventModal");
 const EventForm = document.querySelector("#eventForm");
+const ResponseMessageCreateEvent = document.querySelector(
+  "#ResponseMessageCreateEvent"
+);
 
 CreateEventBtn.addEventListener("click", () => {
   //   location.reload();
@@ -49,6 +52,8 @@ function closeModal() {
   );
   CreateEventModal.classList.remove("flex");
   CreateEventModal.classList.add("hidden");
+  ResponseMessageCreateEvent.textContent = "";
+  location.reload();
 }
 
 // Submit form
@@ -60,7 +65,7 @@ EventForm.addEventListener("submit", async (e) => {
     event_link: document.querySelector("#location").value,
     end_date: document.querySelector("#date").value,
   };
-  
+
   try {
     console.log("Data sended");
     const response = await fetch("/events", {
@@ -73,8 +78,9 @@ EventForm.addEventListener("submit", async (e) => {
 
     console.log("Data recived");
     const responseData = await response.json();
-    closeModal();
-    location.reload();
+    ResponseMessageCreateEvent.textContent = "Event created.";
+    EventForm.reset();
+    console.log(responseData);
   } catch (error) {
     console.log("Xato:" + error);
   }

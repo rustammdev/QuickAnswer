@@ -5,7 +5,7 @@
   <!-- Top Section -->
   <div class="flex flex-col justify-between h-full">
     <div
-      class="text-xl font-bold mb-2 flex justify-between p-2 border lg:flex lg:justify-center"
+      class="text-xl font-bold mb-2 flex justify-between p-2 lg:flex lg:justify-center"
     >
       <a href="/">QuickAnswear</a>
 
@@ -32,6 +32,43 @@
     </div>
 
     <div>
+
+      <!-- Event Titles -->
+      <div class="flex flex-col">
+        <ul
+          class="flex-1 max-h-[450px] overflow-y-auto border border-[#333333] p-2 rounded scrollable-menu"
+        >
+          {{#if events.length}}
+            <!-- Massiv bo'sh emas -->
+
+            {{#each events}}
+              <li class="content-item" data-content-id="{{event_id}}">
+                <span class="text-sm text-gray-500">{{lookup
+                    this
+                    "end_date"
+                  }}</span>
+                <a href="#" class="block">{{lookup
+                    this
+                    "event_name"
+                  }}</a>
+              </li>
+            {{/each}}
+          {{else}}
+
+            <div class="flex justify-center gap-1 align-middle">
+              <!-- Massiv bo'sh -->
+              <img src="./no-results.png" alt="empty img" />
+              <p>You have no events.</p>
+            </div>
+
+          {{/if}}
+
+        </ul>
+      </div>
+    </div>
+
+    <!-- Setting Button -->
+    <div>
       <div class="p-2 rounded mt-4">
         <button
           id="CreateEvent"
@@ -40,77 +77,13 @@
           Create Event
         </button>
       </div>
-
-      <!-- Event Titles -->
-      <div class="flex flex-col">
-        <ul
-          class="flex-1 max-h-[450px] overflow-y-auto border border-[#333333] p-2 rounded scrollable-menu"
+      <div class="p-2 rounded">
+        <button
+          class="bg-[#FF5F6D] text-white px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-emerald-50"
         >
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Dasturlashni qanday o'rganish
-              kerak.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Nega Yevropa aynan.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Siz buni bajara olmaysiz</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Lorem ipsum dolor sit amet,
-              Asperiores possimus minima quas.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Dasturlashni qanday o'rganish
-              kerak.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Nega Yevropa aynan.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Siz buni bajara olmaysiz</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Lorem ipsum dolor sit amet,
-              Asperiores possimus minima quas.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Dasturlashni qanday o'rganish
-              kerak.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Nega Yevropa aynan.</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Siz buni bajara olmaysiz</a>
-          </li>
-          <li class="content-item">
-            <span class="text-sm text-gray-500">2024-06-28</span>
-            <a href="#" class="block">Lorem ipsum dolor sit amet,
-              Asperiores possimus minima quas.</a>
-          </li>
-        </ul>
+          Settings
+        </button>
       </div>
-    </div>
-
-    <!-- Setting Button -->
-    <div class="p-2 rounded mt-4">
-      <button
-        class="bg-[#FF5F6D] text-white px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-emerald-50"
-      >
-        Settings
-      </button>
     </div>
   </div>
 </div>
