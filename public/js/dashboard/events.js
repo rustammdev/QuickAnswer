@@ -76,11 +76,11 @@ EventForm.addEventListener("submit", async (e) => {
       },
     });
 
-    console.log("Data recived");
     const responseData = await response.json();
     ResponseMessageCreateEvent.textContent = "Event created.";
+    closeModal();
     console.log(responseData);
   } catch (error) {
-    console.log("Xato:" + error);
+    console.log(error);
   }
 });

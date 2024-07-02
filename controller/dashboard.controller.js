@@ -1,4 +1,4 @@
-import User from "../model/register.model.js";
+import Questions from "../model/send.question.js";
 import Event from "../model/create.event.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
@@ -37,6 +37,9 @@ const dashboardIdController = async (req, res) => {
     if (!event) {
       return res.status(404).json({ error: "Event not found" });
     }
+
+    console.log(event);
+    // const question = await Questions.findById({event_id : event.event_id});
 
     res.status(200).json(event);
   } catch (error) {

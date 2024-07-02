@@ -1,57 +1,141 @@
+<style>
+  @media (min-width: 1024px) { .desktop-sidebar { display: block
+  !important; } }
+</style>
 
-    
-  <style>
-    @media (min-width: 1024px) { .desktop-sidebar { display: block
-    !important; } }
-  </style>
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  {{>sidebar}}
 
-    <div class="flex h-screen">
-      <!-- Sidebar -->
-      {{>sidebar}}
-
-      <!-- Main Content -->
-      <div
-        class="flex-1 p-2 sm:px-6 lg:w-[8px] h-screen overflow-y-auto bg-[#ffffff] text-black"
-      >
-        <button
-          id="openSidebar"
-          class="lg:hidden bg-gray-300 p-2 m-2 rounded-full"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
-        </button>
-
-        <!-- Data section -->
-        <div>
-          <h1 id="EventNameDashboard" class="bold border"></h1>
-          <p id="EventDescDashboard"></p>
-
-        </div>
-
-        {{!-- Default content dashboard --}}
-        <p id="DefaultDataDashboard" class="border">You can now use Scat stown</p>
-        
-      {{>createEvent}}
+  <!-- Main Content -->
+  <div
+    class="flex-1 p-4 sm:px-6 lg:px-12 xl:px-24 h-screen overflow-y-auto bg-[#ffffff] text-black"
+  >
+    <div class="flex justify-between items-center">
+      <div class="border px-4 pl-2 flex gap-2">
+        <span>1124</span>/
+        <span>12</span>
       </div>
-      <!--main content end-->
+      <button
+        id="openSidebar"
+        class="lg:hidden bg-gray-300 p-2 m-2 rounded-full"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
+        </svg>
+      </button>
     </div>
 
-{{!-- Js files --}}
+    <!-- Data section -->
+    <div id="EventQuestions" class="hidden">
+      <h1 id="EventNameDashboard" class="bold border"></h1>
+      <p id="EventDescDashboard" ></p>
+      
+      {{!-- Questions --}}
+      <section class="grid grid-cols-1">
+        <h1 class="text-lg font-bold text-center m-4 hidden">Qodirali
+          haqida savollar</h1>
+        <ul id="events-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <li>
+            <div class="flex items-start gap-2.5 mb-2">
+              <div
+                class="flex flex-col w-full max-w-[380px] leading-1.5"
+              >
+                <div
+                  class="flex items-center space-x-2 rtl:space-x-reverse"
+                >
+                  <span
+                    class="text-md font-semibold text-gray-900"
+                  >Question 1</span>
+                </div>
+                <p class="text-md font-normal text-gray-900">
+                  That's awesome. I think our users will really
+                  appreciate the improvements.</p>
+                <span
+                  class="text-sm font-normal text-gray-500"
+                >11.10.2002</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-start gap-2.5 mb-2">
+              <div
+                class="flex flex-col w-full max-w-[380px] leading-1.5"
+              >
+                <div
+                  class="flex items-center space-x-2 rtl:space-x-reverse"
+                >
+                  <span
+                    class="text-md font-semibold text-gray-900"
+                  >Question 2</span>
+                </div>
+                <p class="text-md font-normal text-gray-900">
+                  That's awesome. I think our users will really
+                  appreciate the improvements.</p>
+                <span
+                  class="text-sm font-normal text-gray-500"
+                >11.10.2002</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-start gap-2.5 mb-2">
+              <div
+                class="flex flex-col w-full max-w-[380px] leading-1.5"
+              >
+                <div
+                  class="flex items-center space-x-2 rtl:space-x-reverse"
+                >
+                  <span
+                    class="text-md font-semibold text-gray-900"
+                  >Question 3</span>
+                </div>
+                <p class="text-md font-normal text-gray-900">
+                  That's awesome. I think our users will really
+                  appreciate the improvements.</p>
+                <span
+                  class="text-sm font-normal text-gray-500"
+                >11.10.2002</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </section>
+
+      <div class="fixed bottom-4 right-4 z-10 lg:bottom-10 lg:right-9">
+        <button
+          class="border px-4 py-2 bg-emerald-500 hover:bg-emerald-700 rounded-lg"
+        >Genereted</button>
+      </div>
+        
+    </div>
+
+    {{! Default content dashboard }}
+    <div
+      id="DefaultDataDashboard"
+      class="relative top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center lg:text-lg"
+    >
+      <h1>Ayni vaqtda ma'lumotlar mavjud emas.</h1>
+      <h2>Event haqida malumot olish uchun mavjud eventlardan birini
+        <span class="underline">chap oynadan tanlang</span>.</h2>
+    </div>
+    {{>createEvent}}
+  </div>
+  <!--main content end-->
+</div>
+
+{{>loading}}
+{{! Js files }}
 <script src="./js/dashboard/saidebar.js"></script>
-<script src="./js/dashboard/data.load.js"></script>
-
-
-
-   

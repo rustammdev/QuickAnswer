@@ -1,0 +1,61 @@
+<div
+  id="SendQuestionModal"
+  class="fixed inset-0 bg-gray-600 bg-opacity-50 h-full w-full hidden items-center justify-center"
+>
+  <div
+    class="relative p-5 border w-96 lg:w-[420px] shadow-lg rounded-md bg-white"
+  >
+    <form id="SendQuestionForm">
+      <!-- Birinchi Qator (Matn maydoni) -->
+      <div class="mt-3">
+        <label
+          for="title"
+          class="block text-sm font-medium text-gray-700"
+        >Question Id</label>
+        <input
+          type="text"
+          id="QuestionId"
+          required
+          name="title"
+          class="mt-1 p-2 block w-full border rounded-md"
+          placeholder="Введите название"
+        />
+      </div>
+
+      <!-- Ikkinchi Qator (Matn maydoni) -->
+      <div class="mt-3">
+        <label
+          for="description"
+          class="block text-sm font-medium text-gray-700"
+        >Your question text:</label>
+        <textarea
+          id="QuestiondDesc"
+          required
+          name="desc"
+          class="mt-1 p-2 block w-full border rounded-md"
+          placeholder="Some question text..."
+        ></textarea>
+      </div>
+
+      <span
+        id="ResponseMessageSendQuestion"
+        class="text-left inline-block align-middle w-auto h-3 text-base text-green-700 pl-[2px]"
+      ></span>
+
+      <!-- Tugmalar -->
+      <div class="mt-5 flex justify-end">
+        <button
+          type="button"
+          id="CloseSendQuestion"
+          class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+        >Cancel</button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="./js/dashboard/events.js"></script>
