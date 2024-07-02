@@ -35,81 +35,22 @@
 
         <!-- Data section -->
         <div>
-          <p>You can now use Scat stown</p>
+          <h1 id="EventNameDashboard" class="bold border"></h1>
+          <p id="EventDescDashboard"></p>
+
         </div>
-        {{!-- <div>
-          <div class="flex flex-col justify-between w-full">
-            <div
-              class="flex flex-col sm:flex-row p-2 md:p-4 mt-2 rtl:space-x-reverse text-black sm:divide-x divide-y sm:divide-y-0 rtl:divide-x-reverse divide-gray-200 sm:rounded-lg  border border-gray-700 space-x"
-              role="alert"
-            >
-              <div
-                class="sm:ps-4 p-2 text-sm font-normal w-full md:flex justify-center align-middle gap-2"
-              >
-                General questions:
-                <span> 112</span>
-              </div>
-              <div
-                class="sm:ps-4 p-2 text-sm font-normal w-full md:flex justify-center align-middle gap-2"
-              >
-                Number of sections:
-                <span class="text-red-400"> No genereted.</span>
-              </div>
-            </div>
 
-            <div class="mt-4">
-              <!-- Mobile va desktop ko'rinishlar uchun responsive section -->
-              <section
-                class="flex flex-col lg:flex-row gap-6 bg-white p-6 rounded-xl"
-              >
-                <!-- Section title -->
-                <div class="w-full lg:w-1/4">
-                  <h2
-                    class="block bg-white border border-gray-200 p-4 text-center font-bold text-gray-800 rounded-lg shadow-sm transition duration-300 ease-in-out hover:bg-gray-50 hover:shadow-md cursor-pointer"
-                  >
-                    Frequently asked questions
-                  </h2>
-                </div>
-
-                <!-- Section itemlar -->
-                <ul class="w-full lg:w-3/4 gap-2">
-                  <li
-                    class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm transition duration-300 ease-in-out hover:bg-gray-50 hover:shadow-md cursor-pointer mb-2"
-                  >
-                    <p class="text-gray-600">
-                      Because they're so good at it. Lorem ipsum dolor
-                      sit amet consectetur adipisicing elit. Quas
-                      cupiditate laboriosam fugiat.
-                    </p>
-                  </li>
-                  <li
-                    class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm transition duration-300 ease-in-out hover:bg-gray-50 hover:shadow-md cursor-pointer mb-2"
-                  >
-                    <p class="text-gray-600">
-                      Because they're so good at it. Lorem ipsum dolor
-                      sit amet consectetur adipisicing elit. Quas
-                      cupiditate laboriosam fugiat.
-                    </p>
-                  </li>
-                  <li
-                    class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm transition duration-300 ease-in-out hover:bg-gray-50 hover:shadow-md cursor-pointer mb-2"
-                  >
-                    <p class="text-gray-600">
-                      Because they're so good at it. Lorem ipsum dolor
-                      sit amet consectetur adipisicing elit. Quas
-                      cupiditate laboriosam fugiat.
-                    </p>
-                  </li>
-                </ul>
-              </section>
-            </div>
-          </div>
-        </div> --}}
+        {{!-- Default content dashboard --}}
+        <p id="DefaultDataDashboard" class="border">You can now use Scat stown</p>
+        
       {{>createEvent}}
       </div>
       <!--main content end-->
     </div>
 
+{{!-- Js files --}}
+<script src="./js/dashboard/saidebar.js"></script>
+<script src="./js/dashboard/data.load.js"></script>
 
 
 

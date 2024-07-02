@@ -1,5 +1,3 @@
-// const CreateEvent = document.querySelector("#CreateEvent");
-
 // Create event modal
 const CreateEventBtn = document.getElementById("CreateEvent");
 const CreateEventModal = document.getElementById("CreateEventModal");
@@ -23,12 +21,14 @@ CreateEventBtn.addEventListener("click", () => {
 
 closeEventModal.addEventListener("click", (e) => {
   // reset form
+  location.reload();
   EventForm.reset();
   closeModal();
 });
 
 CreateEventModal.addEventListener("click", (e) => {
   if (e.target === CreateEventModal) {
+    location.reload();
     closeModal();
   }
 });
@@ -79,7 +79,6 @@ EventForm.addEventListener("submit", async (e) => {
     console.log("Data recived");
     const responseData = await response.json();
     ResponseMessageCreateEvent.textContent = "Event created.";
-    EventForm.reset();
     console.log(responseData);
   } catch (error) {
     console.log("Xato:" + error);
