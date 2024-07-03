@@ -1,4 +1,4 @@
-import Questions from "../model/send.question.js";
+import Questions from "../model/sendquestion.model.js";
 import Event from "../model/create.event.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
@@ -39,7 +39,8 @@ const dashboardIdController = async (req, res) => {
     }
 
     console.log(event);
-    // const question = await Questions.findById({event_id : event.event_id});
+    const question = await Questions.find({event_id : event.event_id});
+    console.log(question);
 
     res.status(200).json(event);
   } catch (error) {

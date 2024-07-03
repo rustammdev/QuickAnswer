@@ -1,6 +1,6 @@
 <div
   id="SendQuestionModal"
-  class="fixed inset-0 bg-gray-600 bg-opacity-50 h-full w-full hidden items-center justify-center"
+  class="fixed flex items-center justify-center inset-0 bg-gray-600 bg-opacity-70 h-full w-full z-50 hidden"
 >
   <div
     class="relative p-5 border w-96 lg:w-[420px] shadow-lg rounded-md bg-white"
@@ -11,11 +11,22 @@
         <label
           for="title"
           class="block text-sm font-medium text-gray-700"
-        >Question Id</label>
+        >Event Id</label>
         <input
           type="text"
-          id="QuestionId"
+          id="event_id"
           required
+          name="title"
+          class="mt-1 p-2 block w-full border rounded-md"
+          placeholder="Введите название"
+        />
+        <label
+          for="title"
+          class="block text-sm font-medium text-gray-700"
+        >Acked by</label>
+        <input
+          type="text"
+          id="acked_by"
           name="title"
           class="mt-1 p-2 block w-full border rounded-md"
           placeholder="Введите название"
@@ -29,33 +40,32 @@
           class="block text-sm font-medium text-gray-700"
         >Your question text:</label>
         <textarea
-          id="QuestiondDesc"
+          id="questiond_text"
           required
           name="desc"
           class="mt-1 p-2 block w-full border rounded-md"
           placeholder="Some question text..."
         ></textarea>
       </div>
-
       <span
-        id="ResponseMessageSendQuestion"
-        class="text-left inline-block align-middle w-auto h-3 text-base text-green-700 pl-[2px]"
-      ></span>
+        id="ResMessageSendQuestion"
+        class="text-left inline-block hidden underline align-middle w-auto h-3 text-base text-green-700 pl-[2px]"
+      >Question sended!</span>
 
       <!-- Tugmalar -->
       <div class="mt-5 flex justify-end">
         <button
           type="button"
-          id="CloseSendQuestion"
+          id="close_send_question"
           class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
         >Cancel</button>
         <button
           type="submit"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >Create</button>
+        >Send</button>
       </div>
     </form>
   </div>
 </div>
 
-<script src="./js/dashboard/events.js"></script>
+<script src="./js/dashboard/send.question.js"></script>

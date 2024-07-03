@@ -1,14 +1,13 @@
 import { Router } from "express";
-import SendQuestionController from "../controller/send.question.js"
+import SendQuestionController from "../controller/sendquestion.controller.js"
 
 const app = Router();
 
 // @desc Send question
 // @route /event/question
 // @acces Public
-app.post("/question", SendQuestionController);
+app.post("/", SendQuestionController);
 
-app
 
 
 export default app;

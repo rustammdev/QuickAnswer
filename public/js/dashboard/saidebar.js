@@ -44,14 +44,14 @@ eventList.addEventListener("click", async (event) => {
 
     // event id
     const resdata = await res.json();
+    console.log(resdata);
+    // DefaultDataDashboard.classList.add(`hidden`);
 
-    DefaultDataDashboard.classList.add(`hidden`);
+    // // event questions hidden
+    // EventQuestions.classList.remove("hidden");
 
-    // event questions hidden
-    EventQuestions.classList.remove("hidden");
-
-    EventNameDashboard.textContent = `${resdata.event_name}`;
-    EventDescDashboard.textContent = `${resdata.event_desc}`;
+    // EventNameDashboard.textContent = `${resdata.event_name}`;
+    // EventDescDashboard.textContent = `${resdata.event_desc}`;
     loader.classList.add("hidden");
   } catch (error) {
     console.error("Fetch error:", error);

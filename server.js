@@ -4,7 +4,7 @@ import { create } from "express-handlebars";
 import HomeRoute from "./routes/home.route.js";
 import RegisterRoute from "./routes/register.route.js";
 import LoginRoute from "./routes/login.route.js";
-import SendQuestionRoute from "./routes/send.question.js";
+import SendQuestionRoute from "./routes/sendquestion.route.js";
 import CreateEventRoute from "./routes/events.route.js";
 import DashboardRoute from "./routes/dashboard.route.js";
 import cookieParser from "cookie-parser";
@@ -45,7 +45,7 @@ app.use(express.static("public"));
 app.use("/", HomeRoute);
 
 // Send questions
-app.use("/event", SendQuestionRoute);
+app.use("/sendquestion", SendQuestionRoute);
 
 // User registeration
 app.use("/register", RegisterRoute);
@@ -69,6 +69,7 @@ app.get("/404", (req, res) => {
 // Mavjud bo'lmagan rout uchun error
 app.use((req, res, next) => {
   res.status(404).json({ message: "this rout is not define" });
+  next();
 });
 
 const PORT = process.env.PORT || 6000;

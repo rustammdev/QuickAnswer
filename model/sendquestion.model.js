@@ -13,6 +13,7 @@ const SendQuestion = mongoose.Schema(
     asked_by: {
       type: String,
       require: false,
+      default : "Not available"
     },
   },
   { timestamps: true }

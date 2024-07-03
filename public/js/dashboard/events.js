@@ -1,62 +1,34 @@
 // Create event modal
-const CreateEventBtn = document.getElementById("CreateEvent");
-const CreateEventModal = document.getElementById("CreateEventModal");
-const closeEventModal = document.querySelector("#closeEventModal");
-const EventForm = document.querySelector("#eventForm");
-const ResponseMessageCreateEvent = document.querySelector(
-  "#ResponseMessageCreateEvent"
+const CreateEventButton = document.getElementById("CreateEventModal");
+const sidebarEvent = document.getElementById(
+  "CreateEventSidebarButton"
 );
+const cancelEvent = document.getElementById("closeEventModal");
 
-CreateEventBtn.addEventListener("click", () => {
-  //   location.reload();
-  sidebar.classList.add("-translate-x-full");
-  CreateEventModal.classList.remove("hidden");
-  CreateEventModal.classList.add("flex");
-
-  CreateEventModal.querySelector("div").classList.add(
-    "translate-y-0",
-    "opacity-100"
-  );
+sidebarEvent.addEventListener("click", () => {
+  CreateEventButton.classList.remove("hidden");
+  CreateEventButton.classList.add("flex");
 });
 
-closeEventModal.addEventListener("click", (e) => {
-  // reset form
-  location.reload();
-  EventForm.reset();
-  closeModal();
+cancelEvent.addEventListener("click", () => {
+  CreateEventButton.classList.add("hidden");
+  CreateEventButton.classList.remove("flex");
 });
 
-CreateEventModal.addEventListener("click", (e) => {
-  if (e.target === CreateEventModal) {
-    location.reload();
-    closeModal();
-  }
-});
-
-// close modal without key
+// // close modal without key
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    closeModal();
+    CreateEventButton.classList.add("hidden");
+    CreateEventButton.classList.remove("flex");
   }
 });
 
-// close modal
-function closeModal() {
-  CreateEventModal.querySelector("div").classList.remove(
-    "translate-y-0",
-    "opacity-100"
-  );
-  CreateEventModal.querySelector("div").classList.add(
-    "translate-y-4",
-    "opacity-0"
-  );
-  CreateEventModal.classList.remove("flex");
-  CreateEventModal.classList.add("hidden");
-  ResponseMessageCreateEvent.textContent = "";
-  location.reload();
-}
+const message_evetn = document.getElementById("ResponseMessageCreateEvent");
 
 // Submit form
+const EventForm = document.getElementById("eventForm");
+const SubmitEvent = document.getElementById("submit_event");
+
 EventForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const eventData = {
@@ -67,7 +39,7 @@ EventForm.addEventListener("submit", async (e) => {
   };
 
   try {
-    console.log("Data sended");
+    loader.classList.remove("hidden");
     const response = await fetch("/events", {
       method: "POST",
       body: JSON.stringify(eventData),
@@ -76,10 +48,11 @@ EventForm.addEventListener("submit", async (e) => {
       },
     });
 
+    SubmitEvent.classList.add("cursor-not-allowed");
+    SubmitEvent.setAttribute("disabled", "true");
     const responseData = await response.json();
-    ResponseMessageCreateEvent.textContent = "Event created.";
-    closeModal();
-    console.log(responseData);
+    location.reload();
+    loader.classList.add("hidden");
   } catch (error) {
     console.log(error);
   }

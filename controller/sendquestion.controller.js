@@ -1,23 +1,22 @@
-import SendQuestion from "../model/send.question.js";
+import SendQuestion from "../model/sendquestion.model.js";
 import Event from "../model/create.event.js";
 
 const SendQuestionController = async (req, res) => {
   try {
     console.log(req.body);
     // event mavjudlikka tekshirish
-    const event = await Event.findOne({
-      event_id: req.body.event_id,
-    });
+    const event = await Event.findById(req.body.event_id);
     if (!event) {
       return res.status(404).json({
-        message: "Event topilmadi",
+        message: "Event not found!",
       });
     }
-    console.log(event);
     const question = await SendQuestion.create(req.body);
-    res.status(201).json({ message: "ok" });
+    res.status(201).json({ message: "Question sended!" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(404).json({
+      message: "Event not found!",
+    });
   }
 };
 

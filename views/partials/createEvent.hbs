@@ -1,6 +1,6 @@
 <div
   id="CreateEventModal"
-  class="fixed items-center justify-center inset-0 bg-gray-600 bg-opacity-70 h-full w-full hidden"
+  class="fixed items-center justify-center inset-0 bg-gray-600 bg-opacity-70 hidden h-full w-full  z-50"
 >
   <div class="p-5 w-96 lg:w-[420px] shadow-lg rounded-md bg-white">
     <form id="eventForm">
@@ -63,10 +63,6 @@
           />
         </div>
       </div>
-      <span
-        id="ResponseMessageCreateEvent"
-        class="text-left inline-block align-middle w-auto h-3 text-base text-green-700 pl-[2px]"
-      ></span>
 
       <!-- Tugmalar -->
       <div class="mt-5 flex justify-end">
@@ -77,7 +73,8 @@
         >Cancel</button>
         <button
           type="submit"
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          id="submit_event"
+          class="px-4 py-2 bg-blue-600 text-white  rounded-md hover:bg-blue-700"
         >Create</button>
       </div>
     </form>
