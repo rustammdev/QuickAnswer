@@ -11,9 +11,16 @@
   <div
     class="flex-1 p-4 sm:px-6 lg:px-12 xl:px-24 h-screen overflow-y-auto bg-[#ffffff] text-black"
   >
-    <div class="flex justify-between items-center">
+    <div class="flex justify-end gap-2 items-center hidden" id="delcilp">
+        {{>alert}}
+        {{>clipboar}}
+        <button id="deleteEvent" data-content="0" class="delete-btn bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-colors duration-300">
+            Delete Event
+        </button>
+    </div>
+    <div class="flex justify-between items-center mt-6">
       <div class="border px-4 pl-2 flex gap-2">
-        Umumiy savollar: <span id="questionCount">0</span>
+        General questions: <span id="questionCount">0</span>
       </div>
       <button
         id="openSidebar"
@@ -49,6 +56,7 @@
           id="eventsListContainer"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         >
+        
         </ul>
       </section>
 
@@ -59,7 +67,7 @@
       id="pustoylist"
       class="relative hidden top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center lg:text-lg"
     >
-      <h1>Ayni vaqtda hech kim savol yo'llamagan.</h1>
+      <h1>No one has posted a question yet.</h1>
       
     </div>
 
@@ -68,9 +76,9 @@
       id="DefaultDataDashboard"
       class="relative top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center lg:text-lg"
     >
-      <h1>Ayni vaqtda ma'lumotlar mavjud emas.</h1>
-      <h2>Event haqida malumot olish uchun mavjud eventlardan birini
-        <span class="underline">chap oynadan tanlang</span>.</h2>
+      <h1>No data available at this time.</h1>
+      <h2>One of the available events to get information about the event
+        <span class="underline">select from the left pane</span>.</h2>
     </div>
     {{>createEvent}}
     {{>sendquestions}}
@@ -82,3 +90,5 @@
 {{>loading}}
 {{! Js files }}
 <script src="./js/dashboard/saidebar.js"></script>
+<script src="./js/dashboard/clipboar.js"></script>
+<script src="./js/dashboard/delete.js"></script>

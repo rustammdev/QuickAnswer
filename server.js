@@ -6,6 +6,7 @@ import RegisterRoute from "./routes/register.route.js";
 import LoginRoute from "./routes/login.route.js";
 import SendQuestionRoute from "./routes/sendquestion.route.js";
 import CreateEventRoute from "./routes/events.route.js";
+import EventDeleteRoute from "./routes/eventdelete.route.js";
 import DashboardRoute from "./routes/dashboard.route.js";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/mongo.js";
@@ -58,6 +59,8 @@ app.use("/dashboard", DashboardRoute);
 
 // Create event
 app.use("/events", CreateEventRoute);
+
+app.use("/event/delete", EventDeleteRoute);
 
 // 404
 app.get("/404", (req, res) => {

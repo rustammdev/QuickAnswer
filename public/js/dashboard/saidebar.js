@@ -33,6 +33,17 @@ eventList.addEventListener("click", async (event) => {
   const listItem = event.target.closest(".content-item");
   const contentId = listItem.getAttribute("data-content-id");
 
+  // clipboard event id
+  clipboar.textContent = `${contentId}`;
+  document.getElementById("delcilp").classList.remove("hidden");
+
+  document
+    .getElementById("deleteEvent")
+    .setAttribute("data-content", `${contentId}`);
+
+  document.getElementById("eventsListContainer").innerHTML = "";
+  document.getElementById("pustoylist").classList.add("hidden");
+
   sidebar.classList.add("-translate-x-full");
   try {
     loader.classList.remove("hidden");
@@ -58,7 +69,6 @@ eventList.addEventListener("click", async (event) => {
       .map(
         (item) => `
       <li class="content-item cursor-pointer text-gray-900 hover:text-white">
-        <li>
           <div class="flex items-start gap-2.5 mb-2">
             <div class="flex flex-col w-full max-w-[380px] leading-1.5">
               <div class="flex items-center space-x-2 rtl:space-x-reverse">
@@ -71,9 +81,7 @@ eventList.addEventListener("click", async (event) => {
               }</p>
             </div>
           </div>
-        </li>
       </li>
-
     `
       )
       .join("");
@@ -82,7 +90,6 @@ eventList.addEventListener("click", async (event) => {
       document.getElementById("eventsListContainer").innerHTML =
         template;
     } else {
-      document.getElementById("eventsListContainer").innerHTML = "";
       document
         .getElementById("pustoylist")
         .classList.remove("hidden");
