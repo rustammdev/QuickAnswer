@@ -49,14 +49,12 @@ form.addEventListener("submit", async (e) => {
     message_question.classList.remove("hidden");
     message_question.textContent = `${res.message}`;
 
+    form.reset();
     setTimeout(() => {
-      form.reset();
       message_question.classList.add("hidden");
     }, 2500);
     loader.classList.add("hidden");
   } catch (error) {
-    console.log("Xato:" + error);
+    console.log(error);
   }
-
-  console.log("submit");
 });

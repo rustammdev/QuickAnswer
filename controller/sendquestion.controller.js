@@ -3,7 +3,6 @@ import Event from "../model/create.event.js";
 
 const SendQuestionController = async (req, res) => {
   try {
-    console.log(req.body);
     // event mavjudlikka tekshirish
     const event = await Event.findById(req.body.event_id);
     if (!event) {

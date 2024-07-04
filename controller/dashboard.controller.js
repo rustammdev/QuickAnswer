@@ -15,7 +15,6 @@ const dashboardController = async (req, res) => {
       end_date: event.end_date,
       event_name: event.event_name,
       event_id: event._id.toString(),
-      // Boshqa kerakli maydonlarni ham qo'shing
     }));
 
     events = events.reverse();
@@ -38,14 +37,14 @@ const dashboardIdController = async (req, res) => {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    console.log(event);
-    const question = await Questions.find({event_id : event.event_id});
-    console.log(question);
+    const question = await Questions.find({
+      event_id: req.params.id,
+    });
 
-    res.status(200).json(event);
+    res.status(200).json(question);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).redirect("/404");
   }
 };
 export { dashboardController, dashboardIdController };

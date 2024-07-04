@@ -14,7 +14,7 @@ const homeGetController = async (req, res) => {
       if (user) {
         return res.status(302).redirect("/dashboard");
       }
-      // return res.status(200).redirect("/404");
+      
     } catch (error) {
       return res.status(200).render("home", {
         title: "Home | Qmarge",
