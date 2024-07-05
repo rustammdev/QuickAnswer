@@ -11,7 +11,7 @@ QuickAnswer savollar berish va event yaratish imkonini beradigan platformadir.
 
 
 ```
-cd QuickAnswer
+cd QuickAnswer-v1
 npm install
 ```
 
