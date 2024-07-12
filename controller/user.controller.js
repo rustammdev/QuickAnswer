@@ -1,11 +1,16 @@
+import userServices from "../services/User.services.js";
+
 class UserController {
   async home(req, res) {
-    res.status(200).json({ message: "This is home route" });
+    res.status(200).json({ message: "This is the home page" });
   }
 
 
   async register(req, res) {
-    res.status(200).json({ message: "This is register route" });
+    const {email, password} = req.body;
+    const  user = await userServices.createUser(email, password)
+
+    res.status(200).json({path : "register", ...user });
   }
 }
 
