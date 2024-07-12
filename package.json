@@ -4,8 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css --watch",
-    "dev": "nodemon index.js & npm run build:css"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
