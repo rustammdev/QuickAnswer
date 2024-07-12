@@ -7,7 +7,7 @@ QuickAnswer savollar berish va event yaratish imkonini beradigan platformadir.
 ## O'rnatish
 1. Repozitoriyani klonlang:
    ```bash
-   git clone https://github.com/username/QuickAnswer.git
+   git clone https://github.com/username/QuickAnswer-v1.git
 
 
 ```cd QuickAnswer
