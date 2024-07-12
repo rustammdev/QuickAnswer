@@ -1,15 +1,15 @@
 {
-  "name": "qmarge-v1",
-  "version": "1.0.0",
+  "name": "qmarge-v2",
+  "version": "2.1.0",
   "main": "server.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rustamjon Nuriddinov",
   "license": "ISC",
-  "description": "",
+  "description": "A Quick and Easy Question and Answer Platform.",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "clipboard": "^2.0.11",

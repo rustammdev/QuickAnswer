@@ -12,11 +12,13 @@ class TokenServices{
         const  tokenData = await TokenModel.findOne({user : userId})
 
         if(tokenData){
+            // refresh token mavjud bo'lsa yangi refesh tokenga o'zgartirish
             tokenData.refreshToken = refreshToken
-            tokenData.save()
+            await tokenData.save();
+            return { message: "Token updated successfully." };
         }
 
-        const  token = await  TokenModel.create({user : userId, refreshToken})
+        const  token = await  TokenModel.create({user : userId, refreshToken});
         return {message : "Token saved successfully."};
     }
 }
