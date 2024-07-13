@@ -1,5 +1,6 @@
 import userServices from "../services/user.services.js";
 import {validationResult} from "express-validator";
+import UserServices from "../services/user.services.js";
 
 
 class UserController {
@@ -17,7 +18,10 @@ class UserController {
       }
 
       const  user = await userServices.registeration(email, password);
-      res.status(user.statusCode).cookie('accesToken', user.accesToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000}).json({...user});
+      console.log(user)
+      res.cookie('accesToken', user.accessToken);
+      res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
+      res.status(user.statusCode).json({message : user.message, accessToken: user.accessToken});
     }catch (e) {
       return res.status(400).json({ errors: e });
     }
@@ -32,12 +36,18 @@ class UserController {
       }
 
       const  user = await  userServices.login(email, password);
-      console.log(user)
-      res.status(user.statusCode).cookie('accesToken', user.accesToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000}).json({...user});
+
+      res.cookie('accesToken', user.accessToken);
+      res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
+      res.status(user.statusCode).json({message : user.message, accessToken: user.accessToken});
     }catch (e) {
       return res.status(400).json({ errors: e });
     }
   }
+
+  // async logout(req, res) {
+  //
+  // }
 }
 
 export default new UserController();

@@ -1,6 +1,7 @@
 import UserModel from "../model/register.model.js";
 import  bcrypt from "bcryptjs";
 import tokenServices from "./token.services.js";
+import TokenModel from "../model/token.model.js";
 
 class UserServices {
     async registeration(email, password) {
@@ -16,10 +17,10 @@ class UserServices {
             const  tokens = await tokenServices.tokengenerate({email : user.email, id: user._id})
             await  tokenServices.saveToken(user._id, tokens.refreshToken)
 
-            return {statusCode : 201, message: "User created successfully.", accesToken : tokens.accessToken};
+            return {statusCode : 201, message: "User created successfully.", ...tokens};
         }catch (e){
             console.log(e)
-            return  {statusCode : 403, error : 'Failed to create user'};
+            return  {statusCode : 403, message : 'Failed to create user'};
         }
     }
 
@@ -38,7 +39,7 @@ class UserServices {
             const  tokens = await tokenServices.tokengenerate({email : user.email, id: user._id})
             await  tokenServices.saveToken(user._id, tokens.refreshToken)
 
-            return {statusCode : 200, message: "User logIn.", accesToken : tokens.accessToken};
+            return {statusCode : 200, message: "User login.", ...tokens};
         }catch (e){
             console.log(e)
         }

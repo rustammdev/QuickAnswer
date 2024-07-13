@@ -16,6 +16,7 @@ const  validateUser = [
     body('password').isLength({min: 5}).withMessage("Please enter a valid password"),
 ]
 route.post('/register', validateUser, UserController.register);
-route.post('/login', validateUser, UserController.login)
+route.post('/login', validateUser, UserController.login);
+// route.post('/logout', UserController.logout)
 
 export default route;
