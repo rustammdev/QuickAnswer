@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import TokenModel from "../model/token.model.js";
+import tokenModel from "../model/token.model.js";
 
 class TokenServices{
     tokengenerate(payload){
@@ -18,8 +19,19 @@ class TokenServices{
             return { message: "Token updated successfully." };
         }
 
-        const  token = await  TokenModel.create({user : userId, refreshToken});
+        await  TokenModel.create({user : userId, refreshToken});
         return {message : "Token saved successfully."};
+    }
+
+    async deleteToken(refreshToken){
+       try{
+           const  {id} = jwt.decode(refreshToken, process.env.REFRESH_SECRET_KEY);
+           await tokenModel.deleteOne({user : id})
+           return {message : "Token deleted successfully."};
+       }catch (e){
+           console.log(e)
+           return  {message : "Failed to delete token."};
+       }
     }
 }
 

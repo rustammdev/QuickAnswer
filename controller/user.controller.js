@@ -1,13 +1,11 @@
 import userServices from "../services/user.services.js";
 import {validationResult} from "express-validator";
-import UserServices from "../services/user.services.js";
 
 
 class UserController {
   async home(req, res) {
     res.status(200).json({ message: "This is the home page" });
   }
-
   // register
   async register(req, res) {
     try {
@@ -45,9 +43,22 @@ class UserController {
     }
   }
 
-  // async logout(req, res) {
-  //
-  // }
+  async logout(req, res) {
+    try{
+      const refreshToken = req.cookies.refreshToken;
+      if(!refreshToken){
+        return res.status(404).json({message : 'Token not found'});
+      }
+      const  user = await  userServices.logout(refreshToken);
+
+      res.clearCookie('accesToken')
+      res.clearCookie('refreshToken')
+      res.status(user.statusCode).json({ message: user.message});
+    }catch (e){
+      console.log(e)
+      return res.status(400).json({message : "Some error", errors: e });
+    }
+  }
 }
 
 export default new UserController();

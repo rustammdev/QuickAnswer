@@ -17,6 +17,6 @@ const  validateUser = [
 ]
 route.post('/register', validateUser, UserController.register);
 route.post('/login', validateUser, UserController.login);
-// route.post('/logout', UserController.logout)
+route.post('/logout', UserController.logout)
 
 export default route;

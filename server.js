@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 // route
 import MainRoute from "./routes/main.route.js";
@@ -10,6 +11,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:7000', // frontend manzili
+    credentials: true
+}));
 
 app.use("/api", MainRoute);
 
@@ -28,4 +33,4 @@ const start = async () => {
     }
 };
 
-start();
+await start();

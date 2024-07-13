@@ -18,3 +18,8 @@ Content-Type: application/json
   "email" : "test@gmail.com",
   "password" : "test1"
 }
+
+### Logout
+POST localhost:7000/api/logout
+Content-Type: application/json
+
