@@ -17,7 +17,7 @@ class UserController {
 
       const  user = await userServices.registeration(email, password);
       console.log(user)
-      res.cookie('accesToken', user.accessToken);
+      res.cookie('accesToken', user.accessToken, {httpOnly : true});
       res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
       res.status(user.statusCode).json({message : user.message, accessToken: user.accessToken});
     }catch (e) {
@@ -35,8 +35,8 @@ class UserController {
 
       const  user = await  userServices.login(email, password);
 
-      res.cookie('accesToken', user.accessToken);
-      res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
+      res.cookie('accesToken', user.accessToken, {httpOnly : true, secure : true});
+      res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000, secure : true});
       res.status(user.statusCode).json({message : user.message, accessToken: user.accessToken});
     }catch (e) {
       return res.status(400).json({ errors: e });
@@ -58,6 +58,10 @@ class UserController {
       console.log(e)
       return res.status(400).json({message : "Some error", errors: e });
     }
+  }
+
+  async getUser(req, res) {
+    res.status(200).json({message : 'Route get user'});
   }
 }
 

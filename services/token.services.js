@@ -33,6 +33,29 @@ class TokenServices{
            return  {message : "Failed to delete token."};
        }
     }
+
+    async validateRefresh(refreshToken){
+        try {
+            const  isTrue = await jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
+            const  data = await  tokenModel.findOne({refreshToken : refreshToken});
+
+            if(data == null){
+                return  null;
+            }
+            return isTrue;
+        }catch (e){
+            return  null;
+        }
+    }
+
+    async validateAccess(accessToken){
+        try {
+            const isTrue = await jwt.verify(accessToken, process.env.JWT_ACCES_SECRET);
+            return isTrue;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 
 

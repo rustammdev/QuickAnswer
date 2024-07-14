@@ -7,12 +7,16 @@ import cors from "cors";
 // route
 import MainRoute from "./routes/main.route.js";
 
+// middleware
+import authMidlware from "./middleware/Auth.midlware.js";
+
 const app = express();
 
 app.use(express.json());
+// app.use(authMidlware)
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:7000', // frontend manzili
+    origin: 'http://localhost:7000',
     credentials: true
 }));
 

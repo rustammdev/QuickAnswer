@@ -23,3 +23,6 @@ Content-Type: application/json
 POST localhost:7000/api/logout
 Content-Type: application/json
 
+### Get user
+GET localhost:7000/api/getuser
+Content-Type: application/json

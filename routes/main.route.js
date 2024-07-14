@@ -1,5 +1,6 @@
 import { Router } from "express";
 import UserController from "../controller/user.controller.js";
+import authMidlware from "../middleware/Auth.midlware.js";
 import {body} from "express-validator";
 const route = Router();
 
@@ -17,6 +18,9 @@ const  validateUser = [
 ]
 route.post('/register', validateUser, UserController.register);
 route.post('/login', validateUser, UserController.login);
-route.post('/logout', UserController.logout)
+route.post('/logout', UserController.logout);
+
+route.get('/getuser',authMidlware, UserController.getUser)
+// route.get('/refresh', UserController.refresh)
 
 export default route;
