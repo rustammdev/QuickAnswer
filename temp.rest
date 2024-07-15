@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Login
-POST localhost:7000/api/login
+POST localhost:7000/api/v2/login
 Content-Type: application/json
 
 {
@@ -20,9 +20,9 @@ Content-Type: application/json
 }
 
 ### Logout
-POST localhost:7000/api/logout
+POST localhost:7000/api/v2/logout
 Content-Type: application/json
 
 ### Get user
-GET localhost:7000/api/getuser
+GET localhost:7000/api/v2/getuser
 Content-Type: application/json

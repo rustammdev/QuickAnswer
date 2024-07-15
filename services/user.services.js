@@ -14,7 +14,8 @@ class UserServices {
             const  user = await UserModel.create({email, password : hash})
 
             const  tokens =  tokenServices.tokengenerate({email : user.email, id: user._id})
-            await  tokenServices.saveToken(user._id, tokens.refreshToken)
+            const  save = await  tokenServices.saveToken(user._id, tokens.refreshToken);
+            console.log("Save", + save)
 
             return {statusCode : 201, message: "User created successfully.", ...tokens};
         }catch (e){

@@ -10,17 +10,20 @@ class TokenServices{
     }
 
     async saveToken(userId, refreshToken){
-        const  tokenData = await TokenModel.findOne({user : userId})
+        try {
+            const  tokenData = await TokenModel.findOne({user : userId})
+            if(tokenData){
+                tokenData.refreshToken = refreshToken
+                await tokenData.save();
+                return { message: "Token updated successfully." };
+            }
 
-        if(tokenData){
-            // refresh token mavjud bo'lsa yangi refesh tokenga o'zgartirish
-            tokenData.refreshToken = refreshToken
-            await tokenData.save();
-            return { message: "Token updated successfully." };
+            await  TokenModel.create({user : userId, refreshToken});
+            return {message : "Token saved successfully."};
+        }catch (e){
+            console.log(e)
+            return {error: "Failed to create token"};
         }
-
-        await  TokenModel.create({user : userId, refreshToken});
-        return {message : "Token saved successfully."};
     }
 
     async deleteToken(refreshToken){

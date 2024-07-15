@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserController from "../controller/user.controller.js";
-import authMidlware from "../middleware/Auth.midlware.js";
+import authMiddleware from "../middleware/Auth.midlware.js";
 import {body} from "express-validator";
 const route = Router();
 
@@ -9,18 +9,30 @@ const route = Router();
 // @access Public
 route.get("/", UserController.home);
 
-// @desc Login
-// @route Post '/api/register'
-// @access Public
 const  validateUser = [
     body('email').isEmail().withMessage("Please enter a valid email address"),
     body('password').isLength({min: 5}).withMessage("Please enter a valid password"),
 ]
-route.post('/register', validateUser, UserController.register);
-route.post('/login', validateUser, UserController.login);
-route.post('/logout', UserController.logout);
 
-route.get('/getuser',authMidlware, UserController.getUser)
+// @desc Login
+// @route Post '/api/register'
+// @access Public
+route.post('/register', validateUser, UserController.register);
+
+// @desc Login
+// @route Post '/api/login'
+// @access Public
+route.post('/login', validateUser, UserController.login);
+
+// @desc Login
+// @route Post '/api/login'
+// @access Only users
+route.post('/logout', authMiddleware, UserController.logout);
+
+// @desc Login
+// @route Post '/api/login'
+// @access Only users
+route.get('/getuser',authMiddleware, UserController.getUser)
 // route.get('/refresh', UserController.refresh)
 
 export default route;
