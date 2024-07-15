@@ -18,8 +18,8 @@ app.use(cors({
     credentials: true
 }));
 
-app.use("/api/v2", MainRoute);
-app.use("/api/v2", EventRoute);
+app.use("/v2", MainRoute);
+app.use("/v2", EventRoute);
 
 const PORT = process.env.PORT || 7000;
 const start = async () => {

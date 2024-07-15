@@ -16,7 +16,7 @@ class UserController {
       }
 
       const  user = await userServices.registeration(email, password);
-      console.log(user)
+
       res.cookie('accessToken', user.accessToken, {httpOnly : true});
       res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
       res.status(user.statusCode).json({message : user.message, accessToken: user.accessToken, ok : true});

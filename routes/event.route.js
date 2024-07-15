@@ -4,6 +4,6 @@ import express from "express";
 const router = express.Router();
 
 
-router.post("/", authMiddleware, EventController.createEvent);
+router.get("/d/:id", authMiddleware, EventController.createEvent);
 
 export default router;

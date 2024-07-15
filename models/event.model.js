@@ -23,5 +23,5 @@ const eventScheme = new Schema(
     { timestamps: true }
 );
 
-const model = model("Events", eventScheme);
-export default model;
+const Model = model("Events", eventScheme);
+export default Model;

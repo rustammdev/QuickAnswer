@@ -24,7 +24,7 @@ const AuthMiddleware = async (req, res, next) => {
                 await tokenServices.saveToken(userData.id, tokens.refreshToken);
 
                 res.cookie("accessToken", tokens.accessToken, { httpOnly: true, secure: true });
-                res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, secure: true });
+                res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, secure: true, maxAge : 30 * 24 * 60 * 60 * 1000 });
 
                 req.user = userData
                 return next();

@@ -1,4 +1,4 @@
-import UserModel from "../model/register.model.js";
+import UserModel from "../models/register.model.js";
 import  bcrypt from "bcryptjs";
 import tokenServices from "./token.services.js";
 
@@ -15,11 +15,10 @@ class UserServices {
 
             const  tokens =  tokenServices.tokengenerate({email : user.email, id: user._id})
             const  save = await  tokenServices.saveToken(user._id, tokens.refreshToken);
-            console.log("Save", + save)
 
             return {statusCode : 201, message: "User created successfully.", ...tokens};
         }catch (e){
-            console.log(e)
+            console.log(e.message)
             return  {statusCode : 403, message : 'Failed to create user'};
         }
     }

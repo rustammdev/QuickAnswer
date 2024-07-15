@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
-import TokenModel from "../model/token.model.js";
-import tokenModel from "../model/token.model.js";
+import TokenModel from "../models/token.model.js";
+import tokenModel from "../models/token.model.js";
 
 class TokenServices{
     tokengenerate(payload){
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCES_SECRET, { expiresIn: '15m' });
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCES_SECRET, { expiresIn: '15s' });
         const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {expiresIn: '30d'});
         return {accessToken, refreshToken};
     }
