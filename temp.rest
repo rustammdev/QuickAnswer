@@ -15,7 +15,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "email" : "test@gmail.com",
+  "email" : "rustam@gmail.com",
   "password" : "test1"
 }
 
@@ -23,9 +23,6 @@ Content-Type: application/json
 POST localhost:7000/v2/logout
 Content-Type: application/json
 
-### Get user
-GET localhost:7000/v2/getuser
-Content-Type: application/json
 
 
 ### Create Event
@@ -33,11 +30,24 @@ POST localhost:7000/v2/event/create
 Content-Type: application/json
 
 {
-  "event_name" : "Test event 3",
+  "event_name" : "Test event",
   "event_desc" : "test description",
   "end_date" : "12-12-1212"
 }
 
+### Get all Events
+## userning barcha eventlar ro'yxat
+## require : user -> _id
+GET localhost:7000/v2/event
+Content-Type: application/json
+
 ### Get Event
-GET localhost:7000/v2/event/6696388481eae66b3e98d0c00
+## mavjud event haqidagi malumotlar
+## require : event -> _id
+GET localhost:7000/v2/event/66966abebc99e643f2ee571a
+Content-Type: application/json
+
+### Delete Event
+## require : event -> _id
+DELETE localhost:7000/v2/event/66966abebc99e643f2ee571a
 Content-Type: application/json

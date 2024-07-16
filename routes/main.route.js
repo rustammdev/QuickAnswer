@@ -29,10 +29,4 @@ route.post('/login', validateUser, UserController.login);
 // @access Only users
 route.post('/logout', authMiddleware, UserController.logout);
 
-// @desc Login
-// @route Post '/api/login'
-// @access Only users
-route.get('/getuser',authMiddleware, UserController.getUser)
-// route.get('/refresh', UserController.refresh)
-
 export default route;

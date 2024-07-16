@@ -59,10 +59,6 @@ class UserController {
       return res.status(400).json({message : "Some error", errors: e , ok : false});
     }
   }
-
-  async getUser(req, res) {
-    res.status(200).json({message : 'Route get user', ok : true});
-  }
 }
 
 export default new UserController();

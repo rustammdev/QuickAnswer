@@ -2,10 +2,23 @@ import EventModel from '../models/event.model.js';
 import jwt from "jsonwebtoken";
 
 class EventService {
-    async getEvent(id) {
+    async getEvent(user_id, event_id) {
         try {
-            const  event = await EventModel.findById({_id: id})
-            return  {status : 200, event : event, ok : true}
+            const  event = await EventModel.findById({_id: event_id});
+
+            if(user_id !== event.created_by.toString()){
+                return  {status :409, error : 'Attempting to obtain information that does not belong to own', ok : false}
+            }
+           return  {status : 200, event_data : event, ok : true}
+        }catch (error) {
+            return {status : 404, error: 'Event not found', ok : false};
+        }
+    }
+
+    async getAllEvents(id) {
+        try {
+            const  event = await EventModel.find({created_by: id});
+            return  {status : 200, event_data : event, ok : true}
         }catch (error) {
             return {status : 404, error: 'Event not found', ok : false};
         }
@@ -22,16 +35,17 @@ class EventService {
     }
 
 
-    async deleteEvent(id) {
+    async deleteEvent(event_id, user_id) {
         try {
-            const  event = await EventModel.findById({_id: id})
-            if(!event){
-                return  {status : 404, error : 'Event not found', ok : true}
+            const  event = await EventModel.findById({_id: event_id});
+            if(user_id !== event.created_by.toString()){
+                return  {status :409, error : 'Attempting to delete information that does not belong to own', ok : false}
             }
-            await EventModel.deleteOne({_id: id});
-            return  {status : 204, message : 'Event is deleted', ok : true}
+            const delEvent = await EventModel.deleteOne({_id: event_id});
+            return  {status : 200, message : 'Event is deleted', ok : true}
         }catch (error) {
-            return {status : 500, error: 'Some error', ok : false};
+            console.log(error.message)
+            return {status: 404, error: 'Event not found', ok: false};
         }
     }
     async updateEvent(data) {
