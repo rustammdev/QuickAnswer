@@ -6,7 +6,7 @@ POST localhost:7000/v2/register
 Content-Type: application/json
 
 {
-  "email" : "rustam@gmail.com",
+  "email" : "davron@gmail.com",
   "password" : "test1"
 }
 
@@ -15,7 +15,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "email" : "rustam@gmail.com",
+  "email" : "davron@gmail.com",
   "password" : "test1"
 }
 
@@ -30,7 +30,7 @@ POST localhost:7000/v2/event/create
 Content-Type: application/json
 
 {
-  "event_name" : "Test event",
+  "event_name" : "Test event Davron",
   "event_desc" : "test description",
   "end_date" : "12-12-1212"
 }
@@ -44,10 +44,16 @@ Content-Type: application/json
 ### Get Event
 ## mavjud event haqidagi malumotlar
 ## require : event -> _id
-GET localhost:7000/v2/event/66966abebc99e643f2ee571a
+GET localhost:7000/v2/event/6696781517fd6b3807583b49
 Content-Type: application/json
 
 ### Delete Event
 ## require : event -> _id
-DELETE localhost:7000/v2/event/66966abebc99e643f2ee571a
+DELETE localhost:7000/v2/event/6696781517fd6b3807583b49
+Content-Type: application/json
+
+
+### Update Event
+## require : event -> _id
+PUT localhost:7000/v2/event/66966ea48e4440c9c72dc5d0
 Content-Type: application/json

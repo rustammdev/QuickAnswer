@@ -8,7 +8,7 @@ class UserServices {
             const  condidate = await UserModel.findOne({email: email})
 
             if(condidate){
-                return ({statusCode : 409, message: "User already exist"});
+                return ({status : 'no', code : 409, message: "User already exist"});
             }
             const  hash = await bcrypt.hash(password, 12);
             const  user = await UserModel.create({email, password : hash})
@@ -16,10 +16,10 @@ class UserServices {
             const  tokens =  tokenServices.tokengenerate({email : user.email, id: user._id})
             const  save = await  tokenServices.saveToken(user._id, tokens.refreshToken);
 
-            return {statusCode : 201, message: "User created successfully.", ...tokens};
+            return {status: 'ok', code : 201, message: "User created successfully.", ...tokens};
         }catch (e){
             console.log(e.message)
-            return  {statusCode : 403, message : 'Failed to create user'};
+            return  {status: 'no', code : 403, message : 'Failed to create user'};
         }
     }
 
@@ -27,26 +27,31 @@ class UserServices {
         try{
             const  user = await  UserModel.findOne({email})
             if(!user){
-                return ({statusCode : 404, message: "User not found"});
+                return ({status: 'no', code : 404, message: "User not found"});
             }
 
             const  isPassEquel = await bcrypt.compare(password, user.password)
             if(!isPassEquel){
-                return ({statusCode : 400, message: "Invalid Password"});
+                return ({status: 'no', code : 400, message: "Invalid Password"});
             }
 
             const  tokens = tokenServices.tokengenerate({email : user.email, id: user._id})
             await  tokenServices.saveToken(user._id, tokens.refreshToken)
 
-            return {statusCode : 200, message: "User login.", ...tokens};
+            return {status: 'ok', code : 200, message: "User login.", ...tokens};
         }catch (e){
             console.log(e)
+            return ({status: 'no', code : 400, message: "Some error"});
         }
     }
 
     async logout(refreshToken) {
-        const  data = await  tokenServices.deleteToken(refreshToken)
-        return {statusCode : 200, ...data};
+        try{
+            const  data = await  tokenServices.deleteToken(refreshToken)
+            return {status: 'ok', code : 200, ...data};
+        }catch (e){
+            return ({status: 'no', code : 400, message: "Some error"});
+        }
     }
 }
 

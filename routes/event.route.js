@@ -24,4 +24,10 @@ router.post("/event/create", authMiddleware, EventController.createEvent);
 // @access Only users
 router.delete("/event/:id", authMiddleware, EventController.deleteEvent);
 
+
+// @desc Update Event
+// @route Post '/v2/event/:id'
+// @access Only users
+router.put("/event/:id", authMiddleware, EventController.updateEvent);
+
 export default router;

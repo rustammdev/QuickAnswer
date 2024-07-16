@@ -22,7 +22,7 @@ class TokenServices{
             return {message : "Token saved successfully."};
         }catch (e){
             console.log(e)
-            return {error: "Failed to create token"};
+            return {message: "Failed to create token"};
         }
     }
 
@@ -42,10 +42,7 @@ class TokenServices{
             const  isTrue = await jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
             const  data = await  tokenModel.findOne({refreshToken : refreshToken});
 
-            if(data == null){
-                return  null;
-            }
-            return isTrue;
+            return data ? isTrue : null;
         }catch (e){
             return  null;
         }
