@@ -6,7 +6,7 @@ POST localhost:7000/v2/register
 Content-Type: application/json
 
 {
-  "email" : "test@gmail.com",
+  "email" : "rustam@gmail.com",
   "password" : "test1"
 }
 
@@ -27,12 +27,17 @@ Content-Type: application/json
 GET localhost:7000/v2/getuser
 Content-Type: application/json
 
-### Event
-GET localhost:7000/v2/d/:id
+
+### Create Event
+POST localhost:7000/v2/event/create
 Content-Type: application/json
 
 {
-  "event_name" : "Test event",
+  "event_name" : "Test event 3",
   "event_desc" : "test description",
   "end_date" : "12-12-1212"
 }
+
+### Get Event
+GET localhost:7000/v2/event/6696388481eae66b3e98d0c00
+Content-Type: application/json
