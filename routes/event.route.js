@@ -16,7 +16,7 @@ router.get("/event/:id", authMiddleware, EventController.getEvent);
 // @desc Create Event
 // @route Post '/v2/event/create'
 // @access Only users
-router.post("/event/create", authMiddleware, EventController.createEvent);
+router.post("/event", authMiddleware, EventController.createEvent);
 
 
 // @desc Delete Event

@@ -7,11 +7,11 @@ class EventService {
             const  event = await EventModel.findById({_id: event_id});
 
             if(user_id !== event.created_by.toString()){
-                return  {status: 'no', code :409, error : 'Attempting to obtain information that does not belong to own'}
+                return  {code :409, error : 'Attempting to obtain information that does not belong to own'}
             }
            return  {status: 'ok', code : 200, event_data : event}
         }catch (error) {
-            return {status: 'no', code : 404, error: 'Event not found'};
+            return {code : 404, error: 'Event not found'};
         }
     }
 
@@ -20,7 +20,7 @@ class EventService {
             const  event = await EventModel.find({created_by: id});
             return {status: 'ok', code : 200, event_data : event}
         }catch (error) {
-            return {status: 'no', code : 404, error: 'Event not found'};
+            return {code : 404, error: 'Event not found'};
         }
     }
 
@@ -30,7 +30,7 @@ class EventService {
             const  event = await EventModel.create({created_by : jwtData.id, ...data});
             return  {status: 'ok', code : 201, message : 'Successfully created', eventId :event._id}
         }catch (error) {
-            return {status: 'no', code : 409, error: 'Event was not created'};
+            return {code : 409, error: 'Event was not created'};
         }
     }
 
@@ -39,16 +39,17 @@ class EventService {
         try {
             const  event = await EventModel.findById({_id: event_id});
             if(user_id !== event.created_by.toString()){
-                return  {status: 'no', code :409, error : 'Attempting to delete information that does not belong to own'}
+                return  {code :409, error : 'Attempting to delete information that does not belong to own'}
             }
-            const delEvent = await EventModel.deleteOne({_id: event_id});
+            await EventModel.deleteOne({_id: event_id});
             return  {status: 'ok', code : 200, message : 'Event is deleted'}
         }catch (error) {
             console.log(error.message)
-            return {status: 'no', code: 404, error: 'Event not found'};
+            return {code: 404, error: 'Event not found'};
         }
     }
-    async updateEvent(data) {
+    async updateEvent(id) {
+        await EventModel.findByIdAndUpdate(id, { event_name: 'Updated Event Name' },{ new: true });
         // not found 404
         // return  {status : 200, message : 'Successfully updated', ok : true}
         // return  {status : 500, message : 'Successfully updated', ok : true}
