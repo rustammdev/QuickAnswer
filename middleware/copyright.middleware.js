@@ -10,7 +10,7 @@ const CopyrightMiddleware = async (req, res, next) => {
     if(!event){
         return res.status(404).json({status: 'fail', code :404, message : 'Event not found', type : 'error'});
     }
-    if(id !== event.created_by.toString()){
+    if(id !== event.created_by.toString() && !(event.moderators.includes(`${id}`))){
         return res.status(409).json({status: 'fail', code :409, message : 'Attempting to delete information that does not belong to own', type: 'error'});
     }
 

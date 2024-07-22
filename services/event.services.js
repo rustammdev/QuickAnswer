@@ -45,7 +45,7 @@ class EventService {
     async updateEvent(id, updateData) {
         try {
             // updateData ichidagi kalitlarni tekshirish
-            const validKeys = ['event_name', "event_desc", "end_date"];
+            const validKeys = ['event_name', "event_desc", "end_date", "moderators"];
             for (const key of Object.keys(updateData)) {
                 if (!validKeys.includes(key)) {
                     return  {status : "fail", code : 400, message : `Invalid key: ${key}`}
