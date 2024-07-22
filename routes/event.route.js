@@ -1,7 +1,10 @@
 import EventController from '../controller/event.controller.js';
-import authMiddleware from "../middleware/Auth.midlware.js";
 import express from "express";
 const router = express.Router();
+
+// middleware
+import authMiddleware from "../middleware/auth.middleware.js";
+import copyrightMiddleware from "../middleware/copyright.middleware.js";
 
 // @desc Get all events
 // @route Post '/v2/events'
@@ -11,7 +14,7 @@ router.get("/event", authMiddleware, EventController.getAllEvents);
 // @desc Get one Event
 // @route Post '/v2/event/:id'
 // @access Only users
-router.get("/event/:id", authMiddleware, EventController.getEvent);
+router.get("/event/:id", authMiddleware, copyrightMiddleware, EventController.getEvent);
 
 // @desc Create Event
 // @route Post '/v2/event/create'
@@ -22,7 +25,7 @@ router.post("/event", authMiddleware, EventController.createEvent);
 // @desc Delete Event
 // @route Post '/v2/event/:id'
 // @access Only users
-router.delete("/event/:id", authMiddleware, EventController.deleteEvent);
+router.delete("/event/:id", authMiddleware, copyrightMiddleware,EventController.deleteEvent);
 
 
 // @desc Update Event

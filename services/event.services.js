@@ -1,26 +1,23 @@
 import EventModel from '../models/event.model.js';
 import jwt from "jsonwebtoken";
+import eventModel from "../models/event.model.js";
 
 class EventService {
-    async getEvent(user_id, event_id) {
+    async getEvent(id) {
         try {
-            const  event = await EventModel.findById({_id: event_id});
-
-            if(user_id !== event.created_by.toString()){
-                return  {code :409, error : 'Attempting to obtain information that does not belong to own'}
-            }
-           return  {status: 'ok', code : 200, event_data : event}
+            const  event = await EventModel.findById({_id: id});
+           return  {status: 'success', code : 200, event_data : event}
         }catch (error) {
-            return {code : 404, error: 'Event not found'};
+            return {status: 'fail',code : 404, message: 'Event not found', error : error.message};
         }
     }
 
     async getAllEvents(id) {
         try {
             const  event = await EventModel.find({created_by: id});
-            return {status: 'ok', code : 200, event_data : event}
+            return {status: 'success', code : 200, event_data : event}
         }catch (error) {
-            return {code : 404, error: 'Event not found'};
+            return {status: 'fail', code : 404, message: 'Event not found', error : error.message};
         }
     }
 
@@ -28,41 +25,45 @@ class EventService {
         try {
             const jwtData = jwt.decode(token, process.env.JWT_ACCES_SECRET);
             const  event = await EventModel.create({created_by : jwtData.id, ...data});
-            return  {status: 'ok', code : 201, message : 'Successfully created', eventId :event._id}
+            return  {status: 'success', code : 201, message : 'Successfully created', eventId :event._id}
         }catch (error) {
-            return {code : 409, error: 'Event was not created'};
+            return {status: 'fail', code : 409, message: 'Event was not created', error : error.message};
         }
     }
 
 
-    async deleteEvent(event_id, user_id) {
+    async deleteEvent(id) {
         try {
-            const  event = await EventModel.findById({_id: event_id});
-            if(user_id !== event.created_by.toString()){
-                return  {code :409, error : 'Attempting to delete information that does not belong to own'}
-            }
-            await EventModel.deleteOne({_id: event_id});
-            return  {status: 'ok', code : 200, message : 'Event is deleted'}
+
+            await EventModel.deleteOne({_id: id});
+            return  {status: 'success', code : 200, message : 'Event is deleted'}
         }catch (error) {
-            console.log(error.message)
-            return {code: 404, error: 'Event not found'};
+            return {status: 'error', code: 404, message: 'Event not found', error : error.message};
         }
     }
-    async updateEvent(id) {
-        await EventModel.findByIdAndUpdate(id, { event_name: 'Updated Event Name' },{ new: true });
-        // not found 404
-        // return  {status : 200, message : 'Successfully updated', ok : true}
-        // return  {status : 500, message : 'Successfully updated', ok : true}
+
+    async updateEvent(id, updateData) {
+        try {
+            // updateData ichidagi kalitlarni tekshirish
+            const validKeys = ['event_name', "event_desc", "end_date"];
+            for (const key of Object.keys(updateData)) {
+                if (!validKeys.includes(key)) {
+                    return  {status : "fail", code : 400, message : `Invalid key: ${key}`}
+                }
+            }
+
+            const result = await eventModel.updateOne({ _id : id },  { $set : updateData }, {new : true});
+
+            if (result.matchedCount === 0) {
+                return {status : "fail", code: 404, message: "Event not found." };
+            }
+            return { status: "ok", code: 200, message: "Event updated successfully."};
+        } catch (error) {
+            return {status : "error", code: 400, message: "Event doesn't updated", error: error.message  };
+        }
     }
-    async getQuestions(id) {
-        // not found 404
-        // return  {status : 200, message : 'Successfully updated', ok : true}
-        // return  {status : 500, message : 'Successfully updated', ok : true}
-    }
-    async sendQuestion(id) {
-        // return  {status : 200, message : 'Successfully updated', ok : true}
-        // return  {status : 500, message : 'Successfully updated', ok : true}
-    }
+
+
 }
 
 export default new EventService();

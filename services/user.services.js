@@ -18,8 +18,7 @@ class UserServices {
 
             return {refreshToken : tokens.refreshToken, status: 'ok', code : 201, message: "User created successfully.", accessToken : tokens.accessToken,};
         }catch (e){
-            console.log(e.message)
-            return  {code : 403, message : 'Failed to create user'};
+            return  {status : "no", code : 403, message : 'Failed to create user'};
         }
     }
 
@@ -27,12 +26,12 @@ class UserServices {
         try{
             const  user = await  UserModel.findOne({email})
             if(!user){
-                return ({code : 404, message: "User not found"});
+                return ({status : "no", code : 404, message: "User not found"});
             }
 
             const  isPassEquel = await bcrypt.compare(password, user.password)
             if(!isPassEquel){
-                return ({code : 400, message: "Invalid Password"});
+                return ({status : "no", code : 400, message: "Invalid Password"});
             }
 
             const  tokens = tokenServices.tokengenerate({email : user.email, id: user._id})
@@ -40,8 +39,7 @@ class UserServices {
 
             return {status: 'ok', code : 200, message: "User login.", ...tokens};
         }catch (e){
-            console.log(e)
-            return ({code : 400, message: "Some error"});
+            return ({status : "no", code : 400, message: "Some error", error : e.message});
         }
     }
 
@@ -50,7 +48,7 @@ class UserServices {
             const  data = await  tokenServices.deleteToken(refreshToken)
             return {status: 'ok', code : 200, ...data};
         }catch (e){
-            return ({code : 400, message: "Some error"});
+            return ({status : "no", code : 400, message: "Some error", error: e.message});
         }
     }
 }

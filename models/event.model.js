@@ -18,7 +18,15 @@ const eventScheme = new Schema(
         end_date: {
             type: String,
             required: true,
-        }
+        },
+
+        filter_data : {
+            type: Array,
+            required: false,
+        },
+
+        moderators : [{ type: Schema.Types.ObjectId, ref: 'Users' }]
+
     },
     { timestamps: true }
 );
