@@ -3,22 +3,22 @@ import  bcrypt from "bcryptjs";
 import tokenServices from "./token.services.js";
 
 class UserServices {
-    async registeration(email, password) {
+    async registeration(email, password, username) {
         try {
             const  condidate = await UserModel.findOne({email: email})
 
             if(condidate){
-                return ({status : 'no', code : 409, message: "User already exist"});
+                return ({status : 'fail', code : 409, message: "User already exist"});
             }
             const  hash = await bcrypt.hash(password, 12);
-            const  user = await UserModel.create({email, password : hash})
+            const  user = await UserModel.create({email, password : hash, username})
 
             const  tokens =  tokenServices.tokengenerate({email : user.email, id: user._id})
             await  tokenServices.saveToken(user._id, tokens.refreshToken);
 
-            return {refreshToken : tokens.refreshToken, status: 'ok', code : 201, message: "User created successfully.", accessToken : tokens.accessToken,};
+            return {refreshToken : tokens.refreshToken, status: 'success', code : 201, message: "User created successfully.", accessToken : tokens.accessToken,};
         }catch (e){
-            return  {status : "no", code : 403, message : 'Failed to create user'};
+            return  {status : "error", code : 403, message : 'Failed to create user'};
         }
     }
 

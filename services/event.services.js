@@ -5,7 +5,7 @@ import eventModel from "../models/event.model.js";
 class EventService {
     async getEvent(id) {
         try {
-            const  event = await EventModel.findById({_id: id});
+           const  event = await EventModel.findById({_id: id});
            return  {status: 'success', code : 200, event_data : event}
         }catch (error) {
             return {status: 'fail',code : 404, message: 'Event not found', error : error.message};
@@ -25,6 +25,7 @@ class EventService {
         try {
             const jwtData = jwt.decode(token, process.env.JWT_ACCES_SECRET);
             const  event = await EventModel.create({created_by : jwtData.id, ...data});
+
             return  {status: 'success', code : 201, message : 'Successfully created', eventId :event._id}
         }catch (error) {
             return {status: 'fail', code : 409, message: 'Event was not created', error : error.message};
@@ -34,7 +35,6 @@ class EventService {
 
     async deleteEvent(id) {
         try {
-
             await EventModel.deleteOne({_id: id});
             return  {status: 'success', code : 200, message : 'Event is deleted'}
         }catch (error) {

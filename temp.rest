@@ -7,7 +7,8 @@ POST localhost:7000/v2/register
 Content-Type: application/json
 
 {
-  "email" : "ravshan@gmail.com",
+  "username" :  "Rustam",
+  "email" : "rustam@gmail.com",
   "password" : "test1"
 }
 
@@ -16,7 +17,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "email" : "rustam@gmail.com",
+  "email" : "test@gmail.com",
   "password" : "test1"
 }
 
@@ -32,7 +33,8 @@ Content-Type: application/json
 
 {
   "event_name" : "Yozda birga kod yozamiz",
-  "end_date" : "12-12-1212"
+  "end_date" : "12-12-1212",
+  "moderators" : ["669e390275933bcb94fed60c"]
 }
 
 ### Get all Events
@@ -44,20 +46,20 @@ Content-Type: application/json
 ### Get Event
 ## mavjud event haqidagi malumotlar
 ## require : event -> _id
-GET localhost:7000/v2/event/669e2a5cc05cf2796b0c83c9
+GET localhost:7000/v2/event/669e3ffaa777d5fce5caaf07
 Content-Type: application/json
 
 ### Delete Event
 ## require : event -> _id
-DELETE localhost:7000/v2/event/66966ea48e4440c9c72dc5d0
+DELETE localhost:7000/v2/event/669e4bcde9338e433981e1e0
 Content-Type: application/json
 
 
 ### Update Event
 ## require : event -> _id
-PUT localhost:7000/v2/event/669e2a5cc05cf2796b0c83c9
+PUT localhost:7000/v2/event/669e4bcde9338e433981e1e0
 Content-Type: application/json
 
 {
-  "event_name" : "O'zgardi"
+  "moderators" : ["669e38cf75933bcb94fed603"]
 }
