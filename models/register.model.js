@@ -16,7 +16,8 @@ const UserSchema = new Schema({
         required: true,
     },
 
-    moderators : [{ type: Schema.Types.ObjectId, ref: 'Events' }]
+    moderators : [{ type: Schema.Types.ObjectId, ref: 'Events' }],
+    events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
 }, { timestamps: true })
 
 

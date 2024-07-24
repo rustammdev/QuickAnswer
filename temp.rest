@@ -16,7 +16,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "username" : "test",
+  "username" : "test1",
   "password" : "test1"
 }
 
@@ -31,7 +31,7 @@ POST localhost:7000/v2/event
 Content-Type: application/json
 
 {
-  "event_name" : "Yozda birga kod yozamiz",
+  "event_name" : "Qishda birga kod yozamiz",
   "end_date" : "12-12-1212"
 }
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 ### Get Event
 ## mavjud event haqidagi malumotlar
 ## require : event -> _id
-GET localhost:7000/v2/event/66a0d50f9e7682fd9d8d0d84
+GET localhost:7000/v2/event/66a0e40ea7ebe2385dbf177d
 Content-Type: application/json
 
 ### Delete Event
@@ -55,9 +55,9 @@ Content-Type: application/json
 
 ### Update Event
 ## require : event -> _id
-PUT localhost:7000/v2/event/66a0d50f9e7682fd9d8d0d84
+PUT localhost:7000/v2/event/66a0e40ea7ebe2385dbf177d
 Content-Type: application/json
 
 {
-  "moderators" : ["66a0d640cc3cc7cdcacc6c87"]
+  "moderators" : ["66a0da73c1e9969b0630d80b"]
 }

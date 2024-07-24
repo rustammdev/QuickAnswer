@@ -2,7 +2,6 @@ import EventModel from '../models/event.model.js';
 import RegisterModel from "../models/register.model.js";
 import jwt from "jsonwebtoken";
 import eventModel from "../models/event.model.js";
-import {raw} from "express";
 
 class EventService {
     async getEvent(id) {
@@ -16,12 +15,19 @@ class EventService {
 
     async getAllEvents(id) {
         try {
-            const  event = await EventModel.find({created_by: id});
-            return {status: 'success', code : 200, event}
-        }catch (error) {
-            return {status: 'fail', code : 404, message: 'Event not found', error : error.message};
+            const events = await EventModel.find({ created_by: id });
+            const user = await RegisterModel.findById(id).populate('moderators'); // Populate moderators
+
+            if (!user) {
+                return { status: 'fail', code: 404, message: 'User not found' };
+            }
+
+            return { status: 'success', code: 200, events, moderators : user.moderators };
+        } catch (error) {
+            return { status: 'fail', code: 404, message: 'Event not found', error: error.message };
         }
     }
+
 
     async createEvent(token, data) {
         try {
@@ -74,7 +80,6 @@ class EventService {
 
             // Send event id to moderators
             if (updateData.moderators) {
-                let failData = []
                 for (const moderator of updateData.moderators) {
                     const result = await this.AddModeratorEvent(moderator, id);
                     if (result.status !== "success") {

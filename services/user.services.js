@@ -16,7 +16,7 @@ class UserServices {
             const  tokens =  tokenServices.tokengenerate({username, id: user._id})
             await  tokenServices.saveToken(user._id, tokens.refreshToken);
 
-            return {refreshToken : tokens.refreshToken, status: 'success', code : 201, message: "User created successfully.", accessToken : tokens.accessToken,};
+            return { refreshToken : tokens.refreshToken, status: 'success', code : 201, message: "User created successfully.", accessToken : tokens.accessToken };
         }catch (e){
             return  {status : "error", code : 500, message : 'Failed to create user', error: e.message};
         }

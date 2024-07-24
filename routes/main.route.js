@@ -1,7 +1,6 @@
 import { Router } from "express";
 import UserController from "../controller/user.controller.js";
 import authMiddleware from "../middleware/auth.middleware.js";
-import RegisterModel from "../models/register.model.js";
 import {body} from "express-validator";
 const route = Router();
 
