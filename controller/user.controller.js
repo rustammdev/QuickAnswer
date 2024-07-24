@@ -10,13 +10,13 @@ class UserController {
   // register
   async register(req, res) {
     try {
-      const {email, password, username} = req.body;
+      const {password, username} = req.body;
       const  errors = validationResult(req);
       if(!errors.isEmpty()){
         return res.status(400).json({code : 400, message: errors.array()});
       }
 
-      let  user = await userServices.registeration(email, password, username);
+      let  user = await userServices.registeration(password, username);
 
       res.cookie('accessToken', user.accessToken, {httpOnly : true});
       res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
@@ -30,13 +30,13 @@ class UserController {
 
   async login(req, res) {
     try {
-      const {email, password} = req.body;
+      const {username, password} = req.body;
       const  errors = validationResult(req);
       if(!errors.isEmpty()){
         return res.status(400).json({code : 400, message: errors.array()});
       }
 
-      const  user = await  userServices.login(email, password);
+      const  user = await  userServices.login(username, password);
 
       res.cookie('accessToken', user.accessToken, {httpOnly : true, secure : true});
       res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000, secure : true});

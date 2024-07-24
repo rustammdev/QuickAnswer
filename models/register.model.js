@@ -9,12 +9,14 @@ const UserSchema = new Schema({
     email : {
         type: String,
         unique: true,
-        required: true,
+        sparse: true,
     },
     password : {
         type: String,
         required: true,
-    }
+    },
+
+    moderators : [{ type: Schema.Types.ObjectId, ref: 'Events' }]
 }, { timestamps: true })
 
 

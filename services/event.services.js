@@ -1,12 +1,14 @@
 import EventModel from '../models/event.model.js';
+import RegisterModel from "../models/register.model.js";
 import jwt from "jsonwebtoken";
 import eventModel from "../models/event.model.js";
+import {raw} from "express";
 
 class EventService {
     async getEvent(id) {
         try {
            const  event = await EventModel.findById({_id: id});
-           return  {status: 'success', code : 200, event_data : event}
+           return  {status: 'success', code : 200, event}
         }catch (error) {
             return {status: 'fail',code : 404, message: 'Event not found', error : error.message};
         }
@@ -15,7 +17,7 @@ class EventService {
     async getAllEvents(id) {
         try {
             const  event = await EventModel.find({created_by: id});
-            return {status: 'success', code : 200, event_data : event}
+            return {status: 'success', code : 200, event}
         }catch (error) {
             return {status: 'fail', code : 404, message: 'Event not found', error : error.message};
         }
@@ -42,9 +44,22 @@ class EventService {
         }
     }
 
+    async AddModeratorEvent(moderator, event_id) {
+        try{
+            const user = await RegisterModel.findById({ _id : moderator});
+            if(user === null){
+                return {status : "fail", code : 404, message : "User not found", moderator};
+            }
+            await RegisterModel.updateOne({ _id : moderator}, { $push : {moderators : event_id} });
+            return  {status : 'success'}
+        }catch (e) {
+            return {status : "error", code : 500, message : "No data sent to moderators."}
+        }
+    }
+
     async updateEvent(id, updateData) {
         try {
-            // updateData ichidagi kalitlarni tekshirish
+            // Checking for keys in updateData
             const validKeys = ['event_name', "event_desc", "end_date", "moderators"];
             for (const key of Object.keys(updateData)) {
                 if (!validKeys.includes(key)) {
@@ -52,12 +67,27 @@ class EventService {
                 }
             }
 
-            const result = await eventModel.updateOne({ _id : id },  { $set : updateData }, {new : true});
+            // Sort duplicate moderators id
+            if (updateData.moderators) {
+                updateData.moderators = [...new Set(updateData.moderators)];
+            }
 
+            // Send event id to moderators
+            if (updateData.moderators) {
+                let failData = []
+                for (const moderator of updateData.moderators) {
+                    const result = await this.AddModeratorEvent(moderator, id);
+                    if (result.status !== "success") {
+                        return result
+                    }
+                }
+            }
+
+            const result = await eventModel.updateOne({ _id : id },  { $set : updateData }, {new : true});
             if (result.matchedCount === 0) {
                 return {status : "fail", code: 404, message: "Event not found." };
             }
-            return { status: "ok", code: 200, message: "Event updated successfully."};
+            return { status: "success", code: 200, message: "Event updated successfully."};
         } catch (error) {
             return {status : "error", code: 400, message: "Event doesn't updated", error: error.message  };
         }

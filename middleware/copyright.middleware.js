@@ -50,7 +50,7 @@ const DelCopyrightMiddleware = async (req, res, next) => {
 
         if (event.moderators.includes(userId)) {
             return res.status(403).json({status : "fail", code: 403, message: "Moderators are not allowed to delete the event."})
-       }
+        }
 
         next()
     }catch(e){
