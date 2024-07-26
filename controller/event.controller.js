@@ -1,8 +1,14 @@
 import eventServices from "../services/event.services.js";
+import  { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 
 class EventController {
     async createEvent(req,res){
+        const  errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({code : 400, message: errors.array()});
+        }
+
         const event = await  eventServices.createEvent(req.cookies.accessToken, req.body)
         res.status(event.code).json(event);
     }

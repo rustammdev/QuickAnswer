@@ -7,7 +7,8 @@ POST localhost:7000/v2/register
 Content-Type: application/json
 
 {
-  "username" :  "test2",
+  "fullname" : "Davronbek Rustamov",
+  "username" :  "davron",
   "password" : "test1"
 }
 
@@ -16,7 +17,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "username" : "test1",
+  "username" : "rustam",
   "password" : "test1"
 }
 
@@ -31,8 +32,8 @@ POST localhost:7000/v2/event
 Content-Type: application/json
 
 {
-  "event_name" : "Qishda birga kod yozamiz",
-  "end_date" : "12-12-1212"
+  "event_name" : "Kuzda birga kod yozamiz",
+  "end_date" : "2024-11-10"
 }
 
 ### Get all Events
@@ -44,20 +45,25 @@ Content-Type: application/json
 ### Get Event
 ## mavjud event haqidagi malumotlar
 ## require : event -> _id
-GET localhost:7000/v2/event/66a0e40ea7ebe2385dbf177d
+GET localhost:7000/v2/event/66a38eda89f3d2014d60366f
 Content-Type: application/json
 
 ### Delete Event
 ## require : event -> _id
-DELETE localhost:7000/v2/event/66a0cfd30e88527d3ca7e8ab
+DELETE localhost:7000/v2/event/66a38eda89f3d2014d60366f
 Content-Type: application/json
 
 
 ### Update Event
 ## require : event -> _id
-PUT localhost:7000/v2/event/66a0e40ea7ebe2385dbf177d
+PUT localhost:7000/v2/event/66a38eda89f3d2014d60366f
 Content-Type: application/json
 
 {
-  "moderators" : ["66a0da73c1e9969b0630d80b"]
+  "moderators" : ["66a38d883d4a636d98407a2b"]
 }
+
+
+### Get all Questions
+GET localhost:7000/v2/event/66a38eda89f3d2014d60366f/questions
+Content-Type: application/json

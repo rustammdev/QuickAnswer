@@ -7,6 +7,7 @@ import cors from "cors";
 // route
 import MainRoute from "./routes/main.route.js";
 import EventRoute from "./routes/event.route.js";
+import QuestionRoute from "./routes/question.route.js";
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use("/v2", MainRoute);
 app.use("/v2", EventRoute);
+app.use("/v2", QuestionRoute);
 
 const PORT = process.env.PORT || 7000;
 const start = async () => {

@@ -22,7 +22,6 @@ const eventScheme = new Schema(
 
         filter_data : {
             type: Array,
-            required: false,
         },
 
         moderators : [{ type: Schema.Types.ObjectId, ref: 'Users' }]

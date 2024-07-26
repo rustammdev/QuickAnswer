@@ -10,19 +10,19 @@ class UserController {
   // register
   async register(req, res) {
     try {
-      const {password, username} = req.body;
+      const {fullname, password, username} = req.body;
       const  errors = validationResult(req);
       if(!errors.isEmpty()){
         return res.status(400).json({code : 400, message: errors.array()});
       }
 
-      let  user = await userServices.registeration(password, username);
+      let  user = await userServices.registeration(fullname, password, username);
 
       res.cookie('accessToken', user.accessToken, {httpOnly : true});
       res.cookie('refreshToken', user.refreshToken, {httpOnly : true, maxAge : 30 * 24 * 60 * 60 * 1000});
 
       const {refreshToken, ...newUser} = user;
-      res.status(user.code).json({...newUser});
+      res.status(user.code).json(newUser);
     }catch (e) {
       return res.status(400).json({code : 400, message: e.message});
     }
@@ -58,7 +58,7 @@ class UserController {
 
       res.clearCookie('accessToken')
       res.clearCookie('refreshToken')
-      res.status(user.code).json({status: user.status, code : user.code, message: user.message});
+      res.status(user.code).json(user);
     }catch (e){
       console.log(e)
       return res.status(400).json({code : 400, message : e.message });

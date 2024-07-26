@@ -2,6 +2,7 @@ import EventModel from '../models/event.model.js';
 import RegisterModel from "../models/register.model.js";
 import jwt from "jsonwebtoken";
 import eventModel from "../models/event.model.js";
+import error from 'jsonwebtoken/lib/JsonWebTokenError.js'
 
 class EventService {
     async getEvent(id) {
@@ -16,7 +17,7 @@ class EventService {
     async getAllEvents(id) {
         try {
             const events = await EventModel.find({ created_by: id });
-            const user = await RegisterModel.findById(id).populate('moderators'); // Populate moderators
+            const user = await RegisterModel.findById(id).populate('moderators');
 
             if (!user) {
                 return { status: 'fail', code: 404, message: 'User not found' };
@@ -43,18 +44,29 @@ class EventService {
 
     async deleteEvent(id) {
         try {
-            await EventModel.deleteOne({_id: id});
+            const event = await EventModel.findByIdAndDelete({_id: id});
+            if(!event){
+                return {status : 'fail', code : 404, message: 'Event not found'};
+            }
+
+            // Event o'chirilganda moderator userlardan ham ushbu event idni o'chirish
+            await RegisterModel.updateMany( { _id: { $in: event.moderators } }, { $pull: { moderators: id } })
             return  {status: 'success', code : 200, message : 'Event is deleted'}
         }catch (error) {
             return {status: 'error', code: 404, message: 'Event not found', error : error.message};
         }
     }
 
+    // Moderatorlarga event qo'shish
     async AddModeratorEvent(moderator, event_id) {
         try{
             const user = await RegisterModel.findById({ _id : moderator});
             if(user === null){
                 return {status : "fail", code : 404, message : "User not found", moderator};
+            }
+            if(user.moderators.includes(event_id)){
+                console.log('qalee')
+                return  {status : 'success'}
             }
             await RegisterModel.updateOne({ _id : moderator}, { $push : {moderators : event_id} });
             return  {status : 'success'}

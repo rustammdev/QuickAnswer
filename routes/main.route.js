@@ -12,7 +12,8 @@ route.get("/", UserController.home);
 const  validateUser = [
     body('username')
         .isLength({ min: 3 }).withMessage('Username must be at least 3 characters long')
-        .matches(/^[a-zA-Z0-9._]+$/).withMessage('Username must contain only letters, numbers, periods and underscores'),
+        .matches(/^[a-zA-Z0-9._]+$/).withMessage('Username must contain only letters, numbers, periods, and underscores')
+        .not().contains(' ').withMessage('Username must not contain spaces'),
     body('password').isLength({min: 5}).withMessage("Please enter a valid password"),
 ]
 

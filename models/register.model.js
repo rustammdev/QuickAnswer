@@ -1,6 +1,15 @@
 import {model, Schema} from "mongoose";
 
 const UserSchema = new Schema({
+    fullname : {
+        type: String,
+        trim: true,
+        required: true,
+    },
+    bio : {
+        type: String,
+        default : "No bio",
+    },
     username : {
         type: String,
         required: true,
@@ -17,7 +26,6 @@ const UserSchema = new Schema({
     },
 
     moderators : [{ type: Schema.Types.ObjectId, ref: 'Events' }],
-    events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
 }, { timestamps: true })
 
 
