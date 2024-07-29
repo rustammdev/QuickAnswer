@@ -73,5 +73,5 @@ POST localhost:7000/v2/event/66a77880452340ea78cfc4b6/questions
 Content-Type: application/json
 
 {
-  "message" : "Qandedur savol"
+  "message" : "Qandedur savol 2"
 }
