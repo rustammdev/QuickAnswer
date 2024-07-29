@@ -75,3 +75,7 @@ Content-Type: application/json
 {
   "message" : "Qandedur savol 2"
 }
+
+### Generate questions
+GET localhost:7000/v2/event/66a77880452340ea78cfc4b6/questions/generate
+Content-Type: application/json
