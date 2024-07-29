@@ -64,6 +64,14 @@ Content-Type: application/json
 }
 
 
-### Get all Questions
-GET localhost:7000/v2/event/66a38eda89f3d2014d60366f/questions
+### Get all questions
+GET localhost:7000/v2/event/66a75eff7c09c5337dc81233/questions
 Content-Type: application/json
+
+### Send questions
+POST localhost:7000/v2/event/66a75eff7c09c5337dc81233/questions
+Content-Type: application/json
+
+{
+  "message" : "Qandedur savol"
+}

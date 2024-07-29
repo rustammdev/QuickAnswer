@@ -10,8 +10,8 @@ const QuestionScheme = new Schema(
             default: "unknown",
         },
 
-        data: {
-            type: Array,
+        message: {
+            type: String,
             required: true,
         }
     },

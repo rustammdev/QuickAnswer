@@ -9,6 +9,7 @@ import authMiddleware from "../middleware/auth.middleware.js";
 // @route Post '/v2/event/:id/questions'
 // @access Only users and moderators
 router.get("/event/:id/questions", authMiddleware, QuestionController.getQuestions)
+router.post("/event/:id/questions", authMiddleware, QuestionController.sendQuestion)
 
 
 export default router;
