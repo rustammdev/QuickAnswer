@@ -4,7 +4,7 @@ const QuestionScheme = new Schema(
     {
         event_id: { type: Schema.Types.ObjectId, ref: "Events" },
 
-        sended : {
+        username : {
             type: String,
             required: false,
             default: "unknown",

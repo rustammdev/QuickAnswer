@@ -1,5 +1,6 @@
 import QuestionsModel from '../models/questions.model.js'
 import EventModel from '../models/event.model.js'
+import RegisterModel from '../models/register.model.js'
 
 class QuestionServices{
     async getQuestions(id){
@@ -13,9 +14,10 @@ class QuestionServices{
 
     async sendQuestion(dataObj){
         try{
-            console.log(dataObj.event_id)
             try{
-                await EventModel.findById(dataObj.event_id);
+                const event = await EventModel.findById(dataObj.event_id);
+                console.log(event)
+
             }catch (e){
                 return {status : "fail", code : 404, message : "Event not found"};
             }

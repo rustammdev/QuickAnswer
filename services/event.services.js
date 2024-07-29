@@ -2,7 +2,6 @@ import EventModel from '../models/event.model.js';
 import RegisterModel from "../models/register.model.js";
 import jwt from "jsonwebtoken";
 import eventModel from "../models/event.model.js";
-import error from 'jsonwebtoken/lib/JsonWebTokenError.js'
 
 class EventService {
     async getEvent(id) {
@@ -35,7 +34,7 @@ class EventService {
             const jwtData = jwt.decode(token, process.env.JWT_ACCES_SECRET);
             const  event = await EventModel.create({created_by : jwtData.id, ...data});
 
-            return  {status: 'success', code : 201, message : 'Successfully created', eventId :event._id}
+            return  {status: 'success', code : 201, message : 'Successfully created', eventId : event._id}
         }catch (error) {
             return {status: 'fail', code : 409, message: 'Event was not created', error : error.message};
         }

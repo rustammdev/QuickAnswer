@@ -1,12 +1,13 @@
 import QuestionServices from '../services/question.services.js'
 import jwt from 'jsonwebtoken'
+import RegisterModel from '../models/register.model.js'
 
 class EventController {
     async getQuestions (req, res) {
         try{
             const id = req.params.id
             const data = await QuestionServices.getQuestions(id);
-            res.status(data.code).json({ ...data, id });
+            res.status(data.code).json({ event_id : id, ...data });
         }catch (e){
             res.status(400).json({code : 400, message: "Server Error", error : e.message});
         }
@@ -14,10 +15,12 @@ class EventController {
 
     async sendQuestion (req, res) {
         try{
+            const jwtData = jwt.verify(req.cookies.accessToken, process.env.JWT_ACCES_SECRET)
+            const user = await RegisterModel.findById(jwtData.id)
             const { message } = req.body
             const data = {
                 event_id : req.params.id,
-                sended : jwt.verify(req.cookies.accessToken, process.env.JWT_ACCES_SECRET).id,
+                username : user.username,
                 message,
             }
             const question = await QuestionServices.sendQuestion(data);
