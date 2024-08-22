@@ -1,56 +1,100 @@
-import UserModel from "../models/register.model.js";
-import  bcrypt from "bcryptjs";
-import tokenServices from "./token.services.js";
+import UserModel from '../models/register.model.js'
+import bcrypt from 'bcryptjs'
+import tokenServices from './token.services.js'
 
 class UserServices {
     async registeration(fullname, password, username) {
         try {
-            const  condidate = await UserModel.findOne({username})
+            const condidate = await UserModel.findOne({ username })
 
-            if(condidate){
-                return ({status : 'fail', code : 409, message: "User already exist"});
+            if (condidate) {
+                return {
+                    status: 'fail',
+                    code: 409,
+                    message: 'User already exist',
+                }
             }
-            const  hash = await bcrypt.hash(password, 12);
-            const  user = await UserModel.create({fullname, username, password : hash})
+            const hash = await bcrypt.hash(password, 12)
+            const user = await UserModel.create({
+                fullname,
+                username,
+                password: hash,
+            })
 
-            const  tokens =  tokenServices.tokengenerate({username, id: user._id})
-            await  tokenServices.saveToken(user._id, tokens.refreshToken);
+            const tokens = tokenServices.tokengenerate({
+                username,
+                id: user._id,
+            })
+            await tokenServices.saveToken(user._id, tokens.refreshToken)
 
-            return { refreshToken : tokens.refreshToken, status: 'success', code : 201, message: "User created successfully.", accessToken : tokens.accessToken };
-        }catch (e){
-            return  {status : "error", code : 500, message : 'Failed to create user', error: e.message};
+            return {
+                refreshToken: tokens.refreshToken,
+                status: 'success',
+                code: 201,
+                message: 'User created successfully.',
+                accessToken: tokens.accessToken,
+            }
+        } catch (e) {
+            return {
+                status: 'error',
+                code: 500,
+                message: 'Failed to create user',
+                error: e.message,
+            }
         }
     }
 
     async login(username, password) {
-        try{
-            const  user = await  UserModel.findOne({username})
-            if(!user){
-                return ({status : "fail", code : 404, message: "User not found"});
+        try {
+            const user = await UserModel.findOne({ username })
+            if (!user) {
+                return { status: 'fail', code: 404, message: 'User not found' }
             }
 
-            const  isPassEquel = await bcrypt.compare(password, user.password)
-            if(!isPassEquel){
-                return ({status : "fail", code : 400, message: "Invalid Password"});
+            const isPassEquel = await bcrypt.compare(password, user.password)
+            if (!isPassEquel) {
+                return {
+                    status: 'fail',
+                    code: 400,
+                    message: 'Invalid Password',
+                }
             }
 
-            const  tokens = tokenServices.tokengenerate({username : user.username, id: user._id})
-            await  tokenServices.saveToken(user._id, tokens.refreshToken)
+            const tokens = tokenServices.tokengenerate({
+                username: user.username,
+                id: user._id,
+            })
+            await tokenServices.saveToken(user._id, tokens.refreshToken)
 
-            return {status: 'success', code : 200, message: "User login.", ...tokens};
-        }catch (e){
-            return ({status : "error", code : 400, message: "Some error", error : e.message});
+            return {
+                status: 'success',
+                code: 200,
+                message: 'User login.',
+                ...tokens,
+            }
+        } catch (e) {
+            return {
+                status: 'error',
+                code: 400,
+                message: 'Some error',
+                error: e.message,
+            }
         }
     }
 
     async logout(refreshToken) {
-        try{
-            const  data = await  tokenServices.deleteToken(refreshToken)
-            return {status: 'success', code : 200, ...data};
-        }catch (e){
-            return ({status : "error", code : 400, message: "Some error", error: e.message});
+        try {
+            const data = await tokenServices.deleteToken(refreshToken)
+            return { status: 'success', code: 200, ...data }
+        } catch (e) {
+            return {
+                status: 'error',
+                code: 400,
+                message: 'Some error',
+                error: e.message,
+            }
         }
     }
 }
 
-export default new UserServices;
+export default new UserServices()
