@@ -16,13 +16,11 @@ class UserController {
             const { fullname, password, username } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res
-                    .status(400)
-                    .json({
-                        code: 400,
-                        status: 'error',
-                        message: errors.array()[0].msg,
-                    })
+                return res.status(400).json({
+                    code: 400,
+                    status: 'error',
+                    message: errors.array()[0].msg,
+                })
             }
 
             let user = await userServices.registeration(
@@ -31,18 +29,20 @@ class UserController {
                 username,
             )
 
-            res.cookie('accessToken', user.accessToken, {
-                httpOnly: true,
-                secure: false,
-                path: '/',
-            })
-            res.cookie('refreshToken', user.refreshToken, {
-                httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-                secure: false, // https da true qilish kerak
-                path: '/',
-                sameSite: 'Lax',
-            })
+            if (user.status == 'success') {
+                res.cookie('accessToken', user.accessToken, {
+                    httpOnly: true,
+                    secure: false,
+                    path: '/',
+                })
+                res.cookie('refreshToken', user.refreshToken, {
+                    httpOnly: true,
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                    secure: false,
+                    path: '/',
+                    sameSite: 'Lax',
+                })
+            }
 
             const { refreshToken, ...newUser } = user
             res.status(user.code).json(newUser)
@@ -66,19 +66,20 @@ class UserController {
             }
 
             const user = await userServices.login(username, password)
-
-            res.cookie('accessToken', user.accessToken, {
-                httpOnly: true,
-                secure: false,
-                path: '/',
-            })
-            res.cookie('refreshToken', user.refreshToken, {
-                httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-                secure: false,
-                path: '/',
-                sameSite: 'Lax',
-            })
+            if (user.status == 'success') {
+                res.cookie('accessToken', user.accessToken, {
+                    httpOnly: true,
+                    secure: false,
+                    path: '/',
+                })
+                res.cookie('refreshToken', user.refreshToken, {
+                    httpOnly: true,
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                    secure: false,
+                    path: '/',
+                    sameSite: 'Lax',
+                })
+            }
 
             const { refreshToken, ...newUser } = user
             res.status(user.code).json({ status: 'success', ...newUser })
