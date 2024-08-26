@@ -17,8 +17,7 @@ POST localhost:7000/v2/login
 Content-Type: application/json
 
 {
-  "username" : "davron",
-  "password" : "test1"
+  "username" : "davron", "password" : "test1"
 }
 
 ### Logout

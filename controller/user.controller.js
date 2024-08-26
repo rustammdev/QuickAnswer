@@ -19,7 +19,7 @@ class UserController {
             if (!errors.isEmpty()) {
                 return res
                     .status(400)
-                    .json({ code: 400, message: errors.array() })
+                    .json({ code: 400, message: errors.array()[0].msg })
             }
 
             let user = await userServices.registeration(
@@ -46,27 +46,32 @@ class UserController {
             const { username, password } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res
-                    .status(400)
-                    .json({ code: 400, message: errors.array() })
+                return res.status(400).json({
+                    code: 400,
+                    status: 'fail',
+                    message: errors.array()[0].msg,
+                })
             }
 
             const user = await userServices.login(username, password)
 
             res.cookie('accessToken', user.accessToken, {
                 httpOnly: true,
-                secure: true,
+                secure: false,
             })
             res.cookie('refreshToken', user.refreshToken, {
                 httpOnly: true,
                 maxAge: 30 * 24 * 60 * 60 * 1000,
-                secure: true,
+                secure: false,
+                sameSite: 'None',
             })
 
             const { refreshToken, ...newUser } = user
-            res.status(user.code).json({ ...newUser })
+            res.status(user.code).json({ status: 'ok', ...newUser })
         } catch (e) {
-            return res.status(400).json({ code: 400, message: e.message })
+            return res
+                .status(400)
+                .json({ code: 400, status: 'error', message: e.message })
         }
     }
 
