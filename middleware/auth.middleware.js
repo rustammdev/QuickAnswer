@@ -5,9 +5,11 @@ const AuthMiddleware = async (req, res, next) => {
 
     if (!accessToken && !refreshToken) {
         // redirect login
-        return res
-            .status(401)
-            .json({ status: 'fail', message: 'No authorization' })
+        return res.status(401).json({
+            status: 'fail',
+            message: 'No authorization',
+            authenticated: false,
+        })
     }
 
     if (accessToken) {
@@ -47,13 +49,21 @@ const AuthMiddleware = async (req, res, next) => {
             }
         } catch (error) {
             // redirect login
-            return res
-                .status(401)
-                .json({ status: 'error', message: 'Invalid refresh token' })
+            return res.status(401).json({
+                status: 'error',
+                message: 'Invalid refresh token',
+                authenticated: false,
+            })
         }
     }
     // redirect login
-    return res.status(401).json({ status: 'fail', message: 'No authorization' })
+    return res
+        .status(401)
+        .json({
+            status: 'fail',
+            message: 'No authorization',
+            authenticated: false,
+        })
 }
 
 export default AuthMiddleware

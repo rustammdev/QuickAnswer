@@ -1,35 +1,53 @@
-import { Router } from "express";
-import UserController from "../controller/user.controller.js";
-import authMiddleware from "../middleware/auth.middleware.js";
-import {body} from "express-validator";
-const route = Router();
+import { Router } from 'express'
+import UserController from '../controller/user.controller.js'
+import authMiddleware from '../middleware/auth.middleware.js'
+import { body } from 'express-validator'
+const route = Router()
 
 // @desc Home
 // @route GET '/api'
 // @access Public
-route.get("/", UserController.home);
+route.get('/', UserController.home)
 
-const  validateUser = [
+const validateUser = [
     body('username')
-        .isLength({ min: 3 }).withMessage('Username must be at least 3 characters long')
-        .matches(/^[a-zA-Z0-9._]+$/).withMessage('Username must contain only letters, numbers, periods, and underscores')
-        .not().contains(' ').withMessage('Username must not contain spaces'),
-    body('password').isLength({min: 5}).withMessage("Please enter a valid password"),
+        .isLength({ min: 3 })
+        .withMessage('Username must be at least 3 characters long')
+        .matches(/^[a-zA-Z0-9._]+$/)
+        .withMessage(
+            'Username must contain only letters, numbers, periods, and underscores',
+        )
+        .not()
+        .contains(' ')
+        .withMessage('Username must not contain spaces'),
+    body('password')
+        .isLength({ min: 5 })
+        .withMessage('Please enter a valid password'),
 ]
 
 // @desc Login
 // @route Post '/api/register'
 // @access Public
-route.post('/register', validateUser, UserController.register);
+route.post('/register', validateUser, UserController.register)
 
 // @desc Login
 // @route Post '/api/login'
 // @access Public
-route.post('/login', validateUser, UserController.login);
+route.post('/login', validateUser, UserController.login)
 
 // @desc Login
 // @route Post '/api/login'
 // @access Only users
-route.post('/logout', authMiddleware, UserController.logout);
+route.post('/logout', authMiddleware, UserController.logout)
 
-export default route;
+route.get('/auth/check', (req, res) => {
+    const { accessToken, refreshToken } = req.cookies // Cookie'dan tokenni olish
+    if (accessToken) {
+        // Token amal qilish muddati va boshqa tekshiruvlar
+        res.json({ authenticated: true })
+    } else {
+        res.json({ authenticated: false })
+    }
+})
+
+export default route

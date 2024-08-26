@@ -15,9 +15,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({origin : "http://localhost:5173",credentials: true}))
 
-app.use('/v2', MainRoute)
-app.use('/v2', EventRoute)
-app.use('/v2', QuestionRoute)
+app.use('/api', MainRoute)
+app.use('/api', EventRoute)
+app.use('/api', QuestionRoute)
 
 const PORT = process.env.PORT || 7000
 const start = async () => {
