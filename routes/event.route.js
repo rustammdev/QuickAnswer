@@ -1,5 +1,5 @@
 import EventController from '../controller/event.controller.js'
-import { body } from 'express-validator'
+import { validateEvent } from '../validators/validates.js'
 import express from 'express'
 const router = express.Router()
 
@@ -10,20 +10,7 @@ import {
     DelCopyrightMiddleware,
 } from '../middleware/copyright.middleware.js'
 
-// validations
-const validateEvent = [
-    body('end_date')
-        .isISO8601()
-        .withMessage('End date must be in the format YYYY-MM-DD')
-        .toDate() // Sana formatini to'g'ri sana formatiga o'zgartiradi
-        .custom((value) => {
-            const today = new Date()
-            if (value <= today) {
-                throw new Error('End date must be in the future')
-            }
-            return true
-        }),
-]
+
 
 // @desc Get all events
 // @route Post '/v2/events'

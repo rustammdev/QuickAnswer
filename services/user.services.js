@@ -3,9 +3,9 @@ import bcrypt from 'bcryptjs'
 import tokenServices from './token.services.js'
 
 class UserServices {
-    async registeration(fullname, password, username) {
+    async registeration(fullname, username, email, password) {
         try {
-            const condidate = await UserModel.findOne({ username })
+            const condidate = await UserModel.findOne({ email })
 
             if (condidate) {
                 return {
@@ -18,6 +18,7 @@ class UserServices {
             const user = await UserModel.create({
                 fullname,
                 username,
+                email,
                 password: hash,
             })
 
@@ -44,9 +45,17 @@ class UserServices {
         }
     }
 
-    async login(username, password) {
+    async login(identifier, password) {
         try {
-            const user = await UserModel.findOne({ username })
+            // Email formatini tekshirish uchun regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            let user
+            if (emailRegex.test(identifier)) {
+                user = await UserModel.findOne({ email: identifier })
+            } else {
+                user = await UserModel.findOne({ username: identifier })
+            }
+
             if (!user) {
                 return { status: 'fail', code: 404, message: 'User not found' }
             }

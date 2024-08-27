@@ -27,7 +27,7 @@ const start = async () => {
             .then(() => console.log('Database is connected'))
 
         app.listen(PORT, () =>
-            console.log(`Server running on Port: http://localhost:${PORT}/v2`),
+            console.log(`Server running on Port: http://localhost:${PORT}/api`),
         )
     } catch (error) {
         console.log(error)

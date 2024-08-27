@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import UserController from '../controller/user.controller.js'
 import authMiddleware from '../middleware/auth.middleware.js'
-import { body } from 'express-validator'
+import tokenServices from '../services/token.services.js'
+import { validateRegister, validateUser } from '../validators/validates.js'
 const route = Router()
 
 // @desc Home
@@ -9,26 +10,10 @@ const route = Router()
 // @access Public
 route.get('/', UserController.home)
 
-const validateUser = [
-    body('username')
-        .isLength({ min: 3 })
-        .withMessage('Username must be at least 3 characters long')
-        .matches(/^[a-zA-Z0-9._]+$/)
-        .withMessage(
-            'Username must contain only letters, numbers, periods, and underscores',
-        )
-        .not()
-        .contains(' ')
-        .withMessage('Username must not contain spaces'),
-    body('password')
-        .isLength({ min: 5 })
-        .withMessage('Please enter a valid password'),
-]
-
 // @desc Login
 // @route Post '/api/register'
 // @access Public
-route.post('/register', validateUser, UserController.register)
+route.post('/register', validateRegister, UserController.register)
 
 // @desc Login
 // @route Post '/api/login'
@@ -40,14 +25,15 @@ route.post('/login', validateUser, UserController.login)
 // @access Only users
 route.post('/logout', authMiddleware, UserController.logout)
 
-route.get('/auth/check', (req, res) => {
-    const { accessToken, refreshToken } = req.cookies // Cookie'dan tokenni olish
+route.get('/auth/check', authMiddleware, async (req, res) => {
+    const { accessToken } = req.cookies
     if (accessToken) {
-        // Token amal qilish muddati va boshqa tekshiruvlar
-        res.json({ authenticated: true })
-    } else {
-        res.json({ authenticated: false })
+        const userData = await tokenServices.validateAccess(accessToken)
+        if (userData) {
+            return res.json({ authenticated: true })
+        }
     }
+    res.json({ authenticated: false })
 })
 
 export default route

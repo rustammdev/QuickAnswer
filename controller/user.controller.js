@@ -13,7 +13,7 @@ class UserController {
     // register
     async register(req, res) {
         try {
-            const { fullname, password, username } = req.body
+            const { fullname, email, password, username } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
@@ -25,8 +25,9 @@ class UserController {
 
             let user = await userServices.registeration(
                 fullname,
-                password,
                 username,
+                email,
+                password,
             )
 
             if (user.status == 'success') {
@@ -55,7 +56,7 @@ class UserController {
 
     async login(req, res) {
         try {
-            const { username, password } = req.body
+            const { identifier, password } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
@@ -65,7 +66,7 @@ class UserController {
                 })
             }
 
-            const user = await userServices.login(username, password)
+            const user = await userServices.login(identifier, password)
             if (user.status == 'success') {
                 res.cookie('accessToken', user.accessToken, {
                     httpOnly: true,

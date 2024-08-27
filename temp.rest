@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "fullname" : "Davronbek Rustamov",
   "username" :  "davron",
+  "email" : "afjoiea@gmail,com"
   "password" : "test1"
 }
 
