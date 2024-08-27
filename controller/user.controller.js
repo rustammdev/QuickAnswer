@@ -31,12 +31,12 @@ class UserController {
             )
 
             if (user.status == 'success') {
-                res.cookie('accessToken', user.accessToken, {
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                })
-                res.cookie('refreshToken', user.refreshToken, {
+                // res.cookie('accessToken', user.accessToken, {
+                //     httpOnly: true,
+                //     secure: false,
+                //     path: '/',
+                // })
+                res.cookie('userData', user.refreshToken, {
                     httpOnly: true,
                     maxAge: 7 * 24 * 60 * 60 * 1000,
                     secure: false,
@@ -51,6 +51,37 @@ class UserController {
             return res
                 .status(400)
                 .json({ code: 400, status: 'error', message: e.message })
+        }
+    }
+
+    async verify(req, res) {
+        try {
+            const { verify } = req.body
+            const { userData } = req.cookies
+            
+            const user = await userServices.verifyUser(userData, verify)
+            console.log(user);
+            
+            if (user.status == 'success') {
+                res.cookie('accessToken', user.accessToken, {
+                    httpOnly: true,
+                    secure: false,
+                    path: '/',
+                })
+                res.cookie('refreshToken', user.refreshToken, {
+                    httpOnly: true,
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                    secure: false,
+                    path: '/',
+                    sameSite: 'Lax',
+                })
+            }
+
+            return res.status(user.code).json({ ...user })
+        } catch (error) {
+            return res
+                .status(400)
+                .json({ code: 400, status: 'error', message: error.message })
         }
     }
 
@@ -105,7 +136,6 @@ class UserController {
             res.clearCookie('refreshToken')
             res.status(user.code).json(user)
         } catch (e) {
-            console.log(e)
             return res.status(400).json({ code: 400, message: e.message })
         }
     }

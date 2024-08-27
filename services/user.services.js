@@ -1,6 +1,9 @@
 import UserModel from '../models/register.model.js'
 import bcrypt from 'bcryptjs'
 import tokenServices from './token.services.js'
+import emailServices from './email.services.js'
+import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 class UserServices {
     async registeration(fullname, username, email, password) {
@@ -14,19 +17,18 @@ class UserServices {
                     message: 'User already exist',
                 }
             }
-            const hash = await bcrypt.hash(password, 12)
-            const user = await UserModel.create({
-                fullname,
-                username,
-                email,
-                password: hash,
+
+            // Verify email code
+            emailServices.SendEmail(email).catch((err) => {
+                console.error('Failed to send email:', err.message)
             })
 
             const tokens = tokenServices.tokengenerate({
+                fullname,
                 username,
-                id: user._id,
+                email,
+                password,
             })
-            await tokenServices.saveToken(user._id, tokens.refreshToken)
 
             return {
                 refreshToken: tokens.refreshToken,
@@ -35,6 +37,54 @@ class UserServices {
                 message: 'User created successfully.',
                 accessToken: tokens.accessToken,
             }
+        } catch (e) {
+            return {
+                status: 'error',
+                code: 500,
+                message: 'Failed to create user',
+                error: e.message,
+            }
+        }
+    }
+
+    async verifyUser(payload, code) {
+        try {
+            const userdata = await jwt.verify(
+                payload,
+                process.env.REFRESH_SECRET_KEY,
+            )
+
+            const verify = await emailServices.verifyCode(userdata.email, code)
+
+            if (verify.status === 'success') {
+                // User mavjudligini tekshirish
+                const existingUser = await UserModel.findOne({
+                    email: userdata.email,
+                })
+                if (existingUser) {
+                    return {
+                        status: 'error',
+                        code: 409, // Conflict
+                        message: 'User already exists with this email',
+                    }
+                }
+
+                const hash = await bcrypt.hash(userdata.password, 10)
+                const user = await UserModel.create({
+                    fullname: userdata.fullname,
+                    username: userdata.username,
+                    email: userdata.email,
+                    password: hash,
+                })
+
+                const tokens = tokenServices.tokengenerate({
+                    username: userdata.username,
+                    id: user._id,
+                })
+                await tokenServices.saveToken(user._id, tokens.refreshToken)
+                return { ...verify, ...tokens }
+            }
+            return { ...verify }
         } catch (e) {
             return {
                 status: 'error',
