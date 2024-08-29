@@ -68,7 +68,7 @@ class EmailService {
                                 <h1>Verify Your Email</h1>
                                 <p>Hi there,</p>
                                 <p>Thank you for registering with QuickAnswear. Please click the button below to verify your email address:</p>
-                                <a href="http://localhost:7000/api/verify/${verifyToken}" class="button">Verify Email</a>
+                                <a href="http://localhost:5173/verify/${verifyToken}" class="button">Verify Email</a>
                                 <p>If you did not request this email, please ignore it.</p>
                                 <div class="footer">
                                     <p>&copy; ${new Date().getFullYear()} QuickAnswear. All rights reserved.</p>

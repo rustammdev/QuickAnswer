@@ -43,11 +43,20 @@ class UserServices {
 
             if (verify.status === 'success') {
                 const hash = await bcrypt.hash(payload.password, 10)
-                const user = await UserModel.create({
-                    firstname: payload.firstname,
-                    email: payload.email,
-                    password: hash,
-                })
+
+                const user = await UserModel.findOneAndUpdate(
+                    { email: payload.email }, // Qidirish sharti
+                    {
+                        firstname: payload.firstname, // Yangilanishi kerak bo'lgan maydonlar
+                        email: payload.email,
+                        password: hash,
+                    },
+                    {
+                        upsert: true, // Hujjat topilmasa, yangi hujjat yaratish
+                        new: true, // Yangilangan hujjatni qaytarish
+                        setDefaultsOnInsert: true, // Qo'shilganda default qiymatlarni qo'llash
+                    },
+                )
 
                 const tokens = tokenServices.tokengenerate({
                     username: user.username,

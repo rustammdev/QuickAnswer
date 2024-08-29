@@ -41,14 +41,13 @@ class UserController {
 
     async verify(req, res) {
         try {
-            // const { verify } = req.body
-            // const { userData } = req.cookies
             const { token } = req.params
             const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
 
             const user = await userServices.verifyUser(user_data)
 
             if (user.status == 'success') {
+                
                 res.cookie('accessToken', user.accessToken, {
                     httpOnly: true,
                     secure: false,
