@@ -1,5 +1,6 @@
 import userServices from '../services/user.services.js'
 import { validationResult } from 'express-validator'
+import jwt from 'jsonwebtoken'
 
 class UserController {
     async home(req, res) {
@@ -13,7 +14,7 @@ class UserController {
     // register
     async register(req, res) {
         try {
-            const { fullname, email, password, username } = req.body
+            const { firstname, email, password } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
@@ -24,26 +25,10 @@ class UserController {
             }
 
             let user = await userServices.registeration(
-                fullname,
-                username,
+                firstname,
                 email,
                 password,
             )
-
-            if (user.status == 'success') {
-                // res.cookie('accessToken', user.accessToken, {
-                //     httpOnly: true,
-                //     secure: false,
-                //     path: '/',
-                // })
-                res.cookie('userData', user.refreshToken, {
-                    httpOnly: true,
-                    maxAge: 7 * 24 * 60 * 60 * 1000,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'Lax',
-                })
-            }
 
             const { refreshToken, ...newUser } = user
             res.status(user.code).json(newUser)
@@ -56,12 +41,13 @@ class UserController {
 
     async verify(req, res) {
         try {
-            const { verify } = req.body
-            const { userData } = req.cookies
-            
-            const user = await userServices.verifyUser(userData, verify)
-            console.log(user);
-            
+            // const { verify } = req.body
+            // const { userData } = req.cookies
+            const { token } = req.params
+            const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
+
+            const user = await userServices.verifyUser(user_data)
+
             if (user.status == 'success') {
                 res.cookie('accessToken', user.accessToken, {
                     httpOnly: true,
@@ -87,7 +73,7 @@ class UserController {
 
     async login(req, res) {
         try {
-            const { identifier, password } = req.body
+            const { email, password } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
@@ -97,7 +83,7 @@ class UserController {
                 })
             }
 
-            const user = await userServices.login(identifier, password)
+            const user = await userServices.login(email, password)
             if (user.status == 'success') {
                 res.cookie('accessToken', user.accessToken, {
                     httpOnly: true,

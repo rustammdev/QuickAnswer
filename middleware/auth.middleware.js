@@ -2,6 +2,7 @@ import tokenServices from '../services/token.services.js'
 
 const AuthMiddleware = async (req, res, next) => {
     const { accessToken, refreshToken } = req.cookies
+    console.log(refreshToken)
 
     if (!accessToken && !refreshToken) {
         // redirect login
@@ -23,6 +24,8 @@ const AuthMiddleware = async (req, res, next) => {
     if (refreshToken) {
         try {
             const userData = await tokenServices.validateRefresh(refreshToken)
+            console.log(userData)
+
             if (userData) {
                 const tokens = tokenServices.tokengenerate({
                     email: userData.email,
@@ -47,6 +50,11 @@ const AuthMiddleware = async (req, res, next) => {
                 req.user = userData
                 return next()
             }
+            return res.status(401).json({
+                status: 'fail',
+                message: 'Refresh token expired.',
+                authenticated: false,
+            })
         } catch (error) {
             // redirect login
             return res.status(401).json({
@@ -57,13 +65,11 @@ const AuthMiddleware = async (req, res, next) => {
         }
     }
     // redirect login
-    return res
-        .status(401)
-        .json({
-            status: 'fail',
-            message: 'No authorization',
-            authenticated: false,
-        })
+    return res.status(401).json({
+        status: 'fail',
+        message: 'No authorization',
+        authenticated: false,
+    })
 }
 
 export default AuthMiddleware

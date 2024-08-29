@@ -7,13 +7,9 @@ const VerifySchema = new Schema(
             required: true,
             unique: true,
         },
-        code: {
-            type: Number,
-            required: true,
-        },
-        expiresAt: {
-            type: Date,
-            required: true,
+        isVerified: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true },

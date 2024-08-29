@@ -14,7 +14,7 @@ route.get('/', UserController.home)
 // @route Post '/api/register'
 // @access Public
 route.post('/register', validateRegister, UserController.register)
-route.post('/verify', UserController.verify)
+route.get('/verify/:token', UserController.verify)
 
 // @desc Login
 // @route Post '/api/login'

@@ -6,37 +6,27 @@ import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 
 class UserServices {
-    async registeration(fullname, username, email, password) {
+    async registeration(firstname, email, password) {
         try {
             const condidate = await UserModel.findOne({ email })
 
             if (condidate) {
                 return {
                     status: 'fail',
+                    email: true,
                     code: 409,
-                    message: 'User already exist',
+                    message: 'Registered with this email!',
                 }
             }
 
             // Verify email code
-            emailServices.SendEmail(email).catch((err) => {
-                console.error('Failed to send email:', err.message)
-            })
-
-            const tokens = tokenServices.tokengenerate({
-                fullname,
-                username,
+            const sendEmail = await emailServices.SendEmail(
+                firstname,
                 email,
                 password,
-            })
+            )
 
-            return {
-                refreshToken: tokens.refreshToken,
-                status: 'success',
-                code: 201,
-                message: 'User created successfully.',
-                accessToken: tokens.accessToken,
-            }
+            return sendEmail
         } catch (e) {
             return {
                 status: 'error',
@@ -47,38 +37,20 @@ class UserServices {
         }
     }
 
-    async verifyUser(payload, code) {
+    async verifyUser(payload) {
         try {
-            const userdata = await jwt.verify(
-                payload,
-                process.env.REFRESH_SECRET_KEY,
-            )
-
-            const verify = await emailServices.verifyCode(userdata.email, code)
+            const verify = await emailServices.verifyCode(payload.email)
 
             if (verify.status === 'success') {
-                // User mavjudligini tekshirish
-                const existingUser = await UserModel.findOne({
-                    email: userdata.email,
-                })
-                if (existingUser) {
-                    return {
-                        status: 'error',
-                        code: 409, // Conflict
-                        message: 'User already exists with this email',
-                    }
-                }
-
-                const hash = await bcrypt.hash(userdata.password, 10)
+                const hash = await bcrypt.hash(payload.password, 10)
                 const user = await UserModel.create({
-                    fullname: userdata.fullname,
-                    username: userdata.username,
-                    email: userdata.email,
+                    firstname: payload.firstname,
+                    email: payload.email,
                     password: hash,
                 })
 
                 const tokens = tokenServices.tokengenerate({
-                    username: userdata.username,
+                    username: user.username,
                     id: user._id,
                 })
                 await tokenServices.saveToken(user._id, tokens.refreshToken)
@@ -89,22 +61,15 @@ class UserServices {
             return {
                 status: 'error',
                 code: 500,
-                message: 'Failed to create user',
+                message: 'Failed to verify user',
                 error: e.message,
             }
         }
     }
 
-    async login(identifier, password) {
+    async login(email, password) {
         try {
-            // Email formatini tekshirish uchun regex
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            let user
-            if (emailRegex.test(identifier)) {
-                user = await UserModel.findOne({ email: identifier })
-            } else {
-                user = await UserModel.findOne({ username: identifier })
-            }
+            const user = await UserModel.findOne({ email })
 
             if (!user) {
                 return { status: 'fail', code: 404, message: 'User not found' }
