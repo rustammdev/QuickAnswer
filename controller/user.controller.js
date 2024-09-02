@@ -42,8 +42,6 @@ class UserController {
     async verify(req, res) {
         try {
             const { token } = req.params
-            console.log(token)
-
             const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
 
             const user = await userServices.verifyUser(user_data)
@@ -60,14 +58,12 @@ class UserController {
             const { token } = req.body
 
             const user = jwt.verify(token, process.env.USER_DATA)
-            console.log('req', token)
 
             const tokens = tokenServices.tokengenerate({
                 username: user.username,
                 id: user.id,
             })
             await tokenServices.saveToken(user.id, tokens.refreshToken)
-            console.log(tokens)
 
             res.cookie('accessToken', tokens.accessToken, {
                 httpOnly: true,
