@@ -3,6 +3,8 @@ import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import { Server } from 'socket.io'
+import http from 'http'
 
 // route
 import MainRoute from './routes/main.route.js'
@@ -10,10 +12,25 @@ import EventRoute from './routes/event.route.js'
 import QuestionRoute from './routes/question.route.js'
 
 const app = express()
+const server = http.createServer(app)
+export const io = new Server(server, {
+    path: '/api/socket.io',
+    cors: {
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST'],
+    },
+})
+io.on('connection', (socket) => {
+    console.log('a user connected')
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
+})
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({origin : "http://localhost:5173",credentials: true}))
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 
 app.use('/api', MainRoute)
 app.use('/api', EventRoute)
@@ -26,7 +43,7 @@ const start = async () => {
             .connect(process.env.MONGO_URL)
             .then(() => console.log('Database is connected'))
 
-        app.listen(PORT, () =>
+        server.listen(PORT, () =>
             console.log(`Server running on Port: http://localhost:${PORT}/api`),
         )
     } catch (error) {

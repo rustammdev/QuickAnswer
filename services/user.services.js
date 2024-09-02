@@ -4,6 +4,7 @@ import tokenServices from './token.services.js'
 import emailServices from './email.services.js'
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
+import { io } from '../server.js'
 
 class UserServices {
     async registeration(firstname, email, password) {
@@ -44,26 +45,52 @@ class UserServices {
             if (verify.status === 'success') {
                 const hash = await bcrypt.hash(payload.password, 10)
 
+                // username ni yaratish
+                let username = payload.firstname
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                let isUnique = false
+                let counter = 0
+
+                while (!isUnique) {
+                    const tempUsername =
+                        counter === 0 ? username : `${username}${counter}`
+                    const existingUser = await UserModel.findOne({
+                        username: tempUsername,
+                    })
+                    if (!existingUser) {
+                        username = tempUsername
+                        isUnique = true
+                    } else {
+                        counter++
+                    }
+                }
+
                 const user = await UserModel.findOneAndUpdate(
-                    { email: payload.email }, // Qidirish sharti
+                    { email: payload.email },
                     {
-                        firstname: payload.firstname, // Yangilanishi kerak bo'lgan maydonlar
+                        firstname: payload.firstname,
+                        username,
                         email: payload.email,
                         password: hash,
                     },
                     {
                         upsert: true, // Hujjat topilmasa, yangi hujjat yaratish
-                        new: true, // Yangilangan hujjatni qaytarish
-                        setDefaultsOnInsert: true, // Qo'shilganda default qiymatlarni qo'llash
+                        new: true,
+                        setDefaultsOnInsert: true,
                     },
                 )
+                const userdata = await jwt.sign(
+                    { username: user.username, id: user._id },
+                    process.env.USER_DATA,
+                )
 
-                const tokens = tokenServices.tokengenerate({
-                    username: user.username,
-                    id: user._id,
+                io.emit('emailVerified', {
+                    success: true,
+                    token: userdata,
                 })
-                await tokenServices.saveToken(user._id, tokens.refreshToken)
-                return { ...verify, ...tokens }
+
+                return { token: userdata, status: 'success', code: 200 }
             }
             return { ...verify }
         } catch (e) {

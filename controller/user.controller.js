@@ -1,6 +1,7 @@
 import userServices from '../services/user.services.js'
 import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
+import tokenServices from '../services/token.services.js'
 
 class UserController {
     async home(req, res) {
@@ -30,8 +31,7 @@ class UserController {
                 password,
             )
 
-            const { refreshToken, ...newUser } = user
-            res.status(user.code).json(newUser)
+            res.status(user.code).json(user)
         } catch (e) {
             return res
                 .status(400)
@@ -42,27 +42,53 @@ class UserController {
     async verify(req, res) {
         try {
             const { token } = req.params
+            console.log(token)
+
             const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
 
             const user = await userServices.verifyUser(user_data)
-
-            if (user.status == 'success') {
-                
-                res.cookie('accessToken', user.accessToken, {
-                    httpOnly: true,
-                    secure: false,
-                    path: '/',
-                })
-                res.cookie('refreshToken', user.refreshToken, {
-                    httpOnly: true,
-                    maxAge: 7 * 24 * 60 * 60 * 1000,
-                    secure: false,
-                    path: '/',
-                    sameSite: 'Lax',
-                })
-            }
-
             return res.status(user.code).json({ ...user })
+        } catch (error) {
+            return res
+                .status(400)
+                .json({ code: 400, status: 'error', message: error.message })
+        }
+    }
+
+    async updateCokies(req, res) {
+        try {
+            const { token } = req.body
+
+            const user = jwt.verify(token, process.env.USER_DATA)
+            console.log('req', token)
+
+            const tokens = tokenServices.tokengenerate({
+                username: user.username,
+                id: user.id,
+            })
+            await tokenServices.saveToken(user.id, tokens.refreshToken)
+            console.log(tokens)
+
+            res.cookie('accessToken', tokens.accessToken, {
+                httpOnly: true,
+                secure: false, // HTTPS bilan ishlayotganda true qilib o'rnating
+                path: '/',
+                sameSite: 'Lax', // kross-domen so'rovlar uchun 'None' qilib o'rnating
+            })
+
+            res.cookie('refreshToken', tokens.refreshToken, {
+                httpOnly: true,
+                maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie'ni saqlash vaqti
+                secure: false, // HTTPS bilan ishlayotganda true qilib o'rnating
+                path: '/',
+                sameSite: 'Lax', // kross-domen so'rovlar uchun 'None' qilib o'rnating
+            })
+
+            res.status(200).json({
+                message: 'Cokies updated.',
+                status: 'success',
+                token,
+            })
         } catch (error) {
             return res
                 .status(400)

@@ -26,6 +26,8 @@ route.post('/login', validateUser, UserController.login)
 // @access Only users
 route.post('/logout', authMiddleware, UserController.logout)
 
+route.post('/update-cookie', UserController.updateCokies)
+
 route.get('/auth/check', authMiddleware, async (req, res) => {
     const { accessToken } = req.cookies
     if (accessToken) {
