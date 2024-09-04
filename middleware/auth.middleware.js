@@ -2,9 +2,9 @@ import tokenServices from '../services/token.services.js'
 
 const AuthMiddleware = async (req, res, next) => {
     const { accessToken, refreshToken } = req.cookies
-    console.log(refreshToken)
 
     if (!accessToken && !refreshToken) {
+        console.log('xato')
         // redirect login
         return res.status(401).json({
             status: 'fail',
@@ -24,23 +24,28 @@ const AuthMiddleware = async (req, res, next) => {
     if (refreshToken) {
         try {
             const userData = await tokenServices.validateRefresh(refreshToken)
-            console.log(userData)
 
             if (userData) {
                 const tokens = tokenServices.tokengenerate({
-                    email: userData.email,
+                    username: userData.username,
                     id: userData.id,
                 })
                 await tokenServices.saveToken(userData.id, tokens.refreshToken)
 
                 res.cookie('accessToken', tokens.accessToken, {
                     httpOnly: true,
-                    secure: true,
+                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                    secure: false, // HTTPS bilan ishlayotganda true qilib o'rnating
+                    path: '/',
+                    sameSite: 'Lax', // kross-domen so'rovlar uchun 'None' qilib o'rnating
                 })
+
                 res.cookie('refreshToken', tokens.refreshToken, {
                     httpOnly: true,
-                    secure: true,
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    maxAge: 7 * 24 * 60 * 60 * 1000, // Cookie'ni saqlash vaqti
+                    secure: false, // HTTPS bilan ishlayotganda true qilib o'rnating
+                    path: '/',
+                    sameSite: 'Lax', // kross-domen so'rovlar uchun 'None' qilib o'rnating
                 })
 
                 // req orqali kelayotgan cookie fayllarni yangilash

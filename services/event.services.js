@@ -6,8 +6,19 @@ import eventModel from '../models/event.model.js'
 class EventService {
     async getEvent(id) {
         try {
-            const event = await EventModel.findById({ _id: id })
-            return { status: 'success', code: 200, event }
+            const events = await EventModel.findById({ _id: id }).populate(
+                'created_by',
+            )
+            let data = {
+                id: events._id,
+                username: events.created_by['username'],
+                event_name: events.event_name,
+                desc: events.event_desc,
+                end_data: events.end_date,
+                created: events.createdAt,
+            }
+
+            return { status: 'success', code: 200, event: data }
         } catch (error) {
             return {
                 status: 'fail',
@@ -115,6 +126,39 @@ class EventService {
                 status: 'error',
                 code: 500,
                 message: 'No data sent to moderators.',
+            }
+        }
+    }
+
+    async globalEvents() {
+        try {
+            const events = await EventModel.find().populate('created_by')
+
+            const Eventdata = []
+            for (let i = 0; i < events.length; i++) {
+                let data = {
+                    id: events[i]._id,
+                    username: events[i].created_by['username'],
+                    event_name: events[i].event_name,
+                    desc: events[i].event_desc,
+                    end_data: events[i].end_date,
+                    created: events[i].createdAt,
+                }
+
+                Eventdata.push(data)
+            }
+
+            return {
+                status: 'success',
+                code: 200,
+                events: Eventdata,
+            }
+        } catch (error) {
+            return {
+                status: 'fail',
+                code: 404,
+                message: "Event doesn't get found",
+                error: error.message,
             }
         }
     }

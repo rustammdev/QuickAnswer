@@ -67,6 +67,7 @@ class UserController {
 
             res.cookie('accessToken', tokens.accessToken, {
                 httpOnly: true,
+                maxAge: 1 * 24 * 60 * 60 * 1000,
                 secure: false, // HTTPS bilan ishlayotganda true qilib o'rnating
                 path: '/',
                 sameSite: 'Lax', // kross-domen so'rovlar uchun 'None' qilib o'rnating
