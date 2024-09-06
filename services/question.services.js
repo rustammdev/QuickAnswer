@@ -5,7 +5,9 @@ import GenerateQuestion from '../ai/open.ai.js'
 class QuestionServices {
     async getQuestions(id) {
         try {
-            const questions = await QuestionsModel.find({ event_id: id })
+            const questions = await QuestionsModel.find({
+                event_id: id,
+            })
             return {
                 status: 'success',
                 code: 200,
@@ -19,8 +21,9 @@ class QuestionServices {
 
     async sendQuestion(dataObj) {
         try {
+            console.log(dataObj)
             try {
-                await EventModel.findById(dataObj.event_id)
+                await EventModel.findById({ _id: dataObj.event_id })
             } catch (e) {
                 return { status: 'fail', code: 404, message: 'Event not found' }
             }

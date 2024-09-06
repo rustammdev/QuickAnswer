@@ -11,8 +11,13 @@ const UserSchema = new Schema(
             type: String,
             default: 'No bio',
         },
+        specialization: {
+            type: String,
+            trim: true,
+        },
         username: {
             type: String,
+            trim: true,
             unique: true,
         },
         email: {

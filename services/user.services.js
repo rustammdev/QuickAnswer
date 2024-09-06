@@ -80,7 +80,7 @@ class UserServices {
                         setDefaultsOnInsert: true,
                     },
                 )
-                const userdata = await jwt.sign(
+                const userdata = jwt.sign(
                     { username: user.username, id: user._id },
                     process.env.USER_DATA,
                 )

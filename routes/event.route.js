@@ -10,13 +10,13 @@ import {
     DelCopyrightMiddleware,
 } from '../middleware/copyright.middleware.js'
 
-// @desc Get all events
-// @route Post '/v2/events'
-// @access Only users and moderators
 router
     // Global
     .get('/events', EventController.globalEvents)
     .get('/events/:id', EventController.getEvent)
+    // @desc Get all events
+    // @route Post '/v2/events'
+    // @access Only users and moderators
     .get('/event', authMiddleware, EventController.getAllEvents)
     // @desc Get one Event
     // @route Post '/v2/event/:id'

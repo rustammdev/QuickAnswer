@@ -2,6 +2,7 @@ import EventModel from '../models/event.model.js'
 import RegisterModel from '../models/register.model.js'
 import jwt from 'jsonwebtoken'
 import eventModel from '../models/event.model.js'
+import questionModel from '../models/questions.model.js'
 
 class EventService {
     async getEvent(id) {
@@ -9,9 +10,11 @@ class EventService {
             const events = await EventModel.findById({ _id: id }).populate(
                 'created_by',
             )
+
             let data = {
                 id: events._id,
                 username: events.created_by['username'],
+                name: events.created_by['firstname'],
                 event_name: events.event_name,
                 desc: events.event_desc,
                 end_data: events.end_date,
@@ -139,6 +142,7 @@ class EventService {
                 let data = {
                     id: events[i]._id,
                     username: events[i].created_by['username'],
+                    name: events[i].created_by['firstname'],
                     event_name: events[i].event_name,
                     desc: events[i].event_desc,
                     end_data: events[i].end_date,

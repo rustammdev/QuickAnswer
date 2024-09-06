@@ -2,7 +2,7 @@ import QuestionServices from '../services/question.services.js'
 import jwt from 'jsonwebtoken'
 import RegisterModel from '../models/register.model.js'
 
-class EventController {
+class QuestionController {
     async getQuestions(req, res) {
         try {
             const id = req.params.id
@@ -19,23 +19,33 @@ class EventController {
 
     async sendQuestion(req, res) {
         try {
-            const jwtData = jwt.verify(
-                req.cookies.accessToken,
-                process.env.JWT_ACCES_SECRET,
-            )
-            const user = await RegisterModel.findById(jwtData.id)
-            const { message } = req.body
-            const data = {
+            const { message, username } = req.body
+            let jwtData
+            let user
+
+            try {
+                jwtData = jwt.verify(
+                    req.cookies.accessToken,
+                    process.env.JWT_ACCES_SECRET,
+                )
+                user = await RegisterModel.findById(jwtData.id)
+            } catch (e) {
+                user = {
+                    username,
+                }
+            }
+            let data = {
                 event_id: req.params.id,
-                username: user.username,
+                username: user ? user.username : message,
                 message,
             }
+
             const question = await QuestionServices.sendQuestion(data)
             res.status(question.code).json(question)
         } catch (e) {
             res.status(400).json({
                 code: 400,
-                message: 'Server Error',
+                message: 'Internal Server Error',
                 error: e.message,
             })
         }
@@ -64,4 +74,4 @@ class EventController {
     }
 }
 
-export default new EventController()
+export default new QuestionController()

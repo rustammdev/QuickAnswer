@@ -1,24 +1,36 @@
 import QuestionController from '../controller/question.controller.js'
-import express from "express";
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
 
 // middleware
-import authMiddleware from "../middleware/auth.middleware.js";
+import authMiddleware from '../middleware/auth.middleware.js'
 
 // @desc Get all questions
 // @route GET '/v2/event/:id/questions'
-// @access Only users and moderators
-router.get("/event/:id/questions", authMiddleware, QuestionController.getQuestions)
+// @access Only Public and moderators
+router.get('/event/:id/questions', QuestionController.getQuestions)
 
 // @desc Send questions
 // @route POST '/v2/event/:id/questions'
 // @access Public
-router.post("/event/:id/questions", QuestionController.sendQuestion)
+router.post('/event/:id/questions', QuestionController.sendQuestion)
 
 // @desc Send questions
 // @route GET '/v2/event/:id/questions/generate'
 // @access Only users and moderators
-router.post("/event/:id/questions/generate", authMiddleware, QuestionController.generateQuestion);
+router.post(
+    '/event/:id/questions/generate',
+    authMiddleware,
+    QuestionController.generateQuestion,
+)
 
+// @desc Send questions
+// @route GET '/v2/event/:id/questions/generate'
+// @access Only users and moderators
+router.post(
+    '/questions/:id',
+    authMiddleware,
+    QuestionController.generateQuestion,
+)
 
-export default router;
+export default router

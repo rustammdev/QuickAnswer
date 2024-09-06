@@ -36,7 +36,7 @@ app.use('/api', MainRoute)
 app.use('/api', EventRoute)
 app.use('/api', QuestionRoute)
 
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 7002
 const start = async () => {
     try {
         await mongoose
