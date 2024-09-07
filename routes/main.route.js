@@ -30,13 +30,7 @@ route.post('/update-cookie', UserController.updateCokies)
 
 route.get('/auth/check', authMiddleware, async (req, res) => {
     console.log('ishladi-auth-check')
-    const { accessToken } = req.cookies
-    if (accessToken) {
-        const userData = await tokenServices.validateAccess(accessToken)
-        if (userData) {
-            return res.json({ authenticated: true })
-        }
-    }
+    console.log(req.cookies)
     res.json({ authenticated: true })
 })
 

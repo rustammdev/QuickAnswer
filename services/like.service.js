@@ -1,15 +1,9 @@
 import QuestionsModel from '../models/questions.model.js'
-import LikeModel from '../models/likes.model.js'
 
 class LikeService {
-    // Bosgan yoki bosmaganini bilish
-    async SetLikes(questionId, payload, userId) {
+    async SetLikes(questionId, userId) {
         try {
-            const { liked, unliked } = payload
-
-            const question = await QuestionsModel.findById({
-                _id: questionId,
-            })
+            const question = await QuestionsModel.findById(questionId)
 
             if (!question) {
                 return {
@@ -18,11 +12,11 @@ class LikeService {
                     message: 'Question not found',
                 }
             }
-            const unLikedUser = question.unLikedUsers.includes(userId)
-            const likedUser = question.likedUsers.includes(userId)
 
-            // Agar foydalanuvchi like qilgan bo'lsa va yana like bossa, like'ni bekor qilish
-            if (liked && likedUser) {
+            let unLikedUser = question.unLikedUsers.includes(userId)
+            let likedUser = question.likedUsers.includes(userId)
+
+            if (likedUser) {
                 await QuestionsModel.updateOne(
                     { _id: questionId },
                     {
@@ -30,10 +24,7 @@ class LikeService {
                         $inc: { likeCount: -1 },
                     },
                 )
-                question.likeCount -= 1
-            }
-            // Agar foydalanuvchi like qilmagan bo'lsa, like'ni qo'shish
-            else if (liked && !likedUser) {
+            } else if (!likedUser) {
                 await QuestionsModel.updateOne(
                     { _id: questionId },
                     {
@@ -42,22 +33,22 @@ class LikeService {
                         $inc: {
                             likeCount: 1,
                             ...(unLikedUser && { unlikeCount: -1 }),
-                        }, // unlike'ni ham bekor qilish
+                        },
                     },
                 )
-                question.likeCount += 1
-                if (unLikedUser) {
-                    question.unlikeCount -= 1
-                }
             }
+
+            // Yangilangan ma'lumotni qayta olish
+            const updatedQuestion = await QuestionsModel.findById(questionId)
 
             return {
                 status: 'success',
                 code: 200,
-                unLikedUser,
-                likedUser,
-                likeCount: question.likeCount,
-                unlikeCount: question.unlikeCount,
+                userId,
+                unLikedUser: updatedQuestion.unLikedUsers,
+                likedUser: updatedQuestion.likedUsers,
+                likeCount: updatedQuestion.likeCount,
+                unlikeCount: updatedQuestion.unlikeCount,
             }
         } catch (e) {
             return {
@@ -69,13 +60,9 @@ class LikeService {
         }
     }
 
-    async SetUnLikes(questionId, payload, userId) {
+    async SetUnLikes(questionId, userId) {
         try {
-            const { liked, unliked } = payload
-
-            const question = await QuestionsModel.findById({
-                _id: questionId,
-            })
+            const question = await QuestionsModel.findById(questionId)
 
             if (!question) {
                 return {
@@ -84,11 +71,11 @@ class LikeService {
                     message: 'Question not found',
                 }
             }
-            const unLikedUser = question.unLikedUsers.includes(userId)
-            const likedUser = question.likedUsers.includes(userId)
 
-            // Agar foydalanuvchi unlike qilgan bo'lsa va yana unlike bossa, unlike'ni bekor qilish
-            if (unliked && unLikedUser) {
+            let likedUser = question.likedUsers.includes(userId)
+            let unLikedUser = question.unLikedUsers.includes(userId)
+
+            if (unLikedUser) {
                 await QuestionsModel.updateOne(
                     { _id: questionId },
                     {
@@ -96,10 +83,7 @@ class LikeService {
                         $inc: { unlikeCount: -1 },
                     },
                 )
-                question.unlikeCount -= 1
-            }
-            // Agar foydalanuvchi unlike qilmagan bo'lsa, unlike'ni qo'shish
-            else if (unliked && !unLikedUser) {
+            } else if (!unLikedUser) {
                 await QuestionsModel.updateOne(
                     { _id: questionId },
                     {
@@ -111,19 +95,19 @@ class LikeService {
                         },
                     },
                 )
-                question.unlikeCount += 1
-                if (likedUser) {
-                    question.likeCount -= 1
-                }
             }
+
+            // Yangilangan ma'lumotni qayta olish
+            const updatedQuestion = await QuestionsModel.findById(questionId)
 
             return {
                 status: 'success',
                 code: 200,
-                unLikedUser,
-                likedUser,
-                likeCount: question.likeCount,
-                unlikeCount: question.unlikeCount,
+                userId,
+                unLikedUser: updatedQuestion.unLikedUsers,
+                likedUser: updatedQuestion.likedUsers,
+                likeCount: updatedQuestion.likeCount,
+                unlikeCount: updatedQuestion.unlikeCount,
             }
         } catch (e) {
             return {

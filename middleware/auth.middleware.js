@@ -30,6 +30,7 @@ const AuthMiddleware = async (req, res, next) => {
                     username: userData.username,
                     id: userData.id,
                 })
+                req.userID = userData.id
                 await tokenServices.saveToken(userData.id, tokens.refreshToken)
 
                 res.cookie('accessToken', tokens.accessToken, {

@@ -8,6 +8,7 @@ class QuestionServices {
             const questions = await QuestionsModel.find({
                 event_id: id,
             })
+
             return {
                 status: 'success',
                 code: 200,

@@ -7,8 +7,7 @@ POST localhost:7000/v2/register
 Content-Type: application/json
 
 {
-  "fullname" : "Davronbek Rustamov",
-  "username" :  "davron",
+  "firstname" : "Davronbek Rustamov",
   "email" : "afjoiea@gmail.com",
   "password" : "test1"
 }

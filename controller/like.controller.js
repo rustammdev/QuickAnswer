@@ -10,17 +10,33 @@ class LikeController {
                 req.cookies.accessToken,
                 process.env.JWT_ACCES_SECRET,
             )
-            const data = await likeService.SetLikes(
-                questionId,
-                req.body,
-                jwtData.id,
-            )
+            const data = await likeService.SetLikes(questionId, jwtData.id)
+            console.log(req.body)
             res.status(data.code).json(data)
         } catch (e) {
             res.status(400).json({
                 code: 400,
-                message: 'Server Error',
-                error: e.message,
+                status: 'error',
+                message: e.message,
+            })
+        }
+    }
+
+    async SetUnLikes(req, res) {
+        try {
+            const questionId = req.params.id
+            const jwtData = jwt.decode(
+                req.cookies.accessToken,
+                process.env.JWT_ACCES_SECRET,
+            )
+
+            const data = await likeService.SetUnLikes(questionId, jwtData.id)
+            res.status(data.code).json(data)
+        } catch (e) {
+            res.status(400).json({
+                code: 400,
+                status: 'error',
+                message: e.message,
             })
         }
     }
