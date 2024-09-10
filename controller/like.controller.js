@@ -1,6 +1,7 @@
 import QuestionServices from '../services/question.services.js'
 import likeService from '../services/like.service.js'
 import jwt from 'jsonwebtoken'
+import { io } from '../server.js'
 
 class LikeController {
     async SetLikes(req, res) {
@@ -11,7 +12,6 @@ class LikeController {
                 process.env.JWT_ACCES_SECRET,
             )
             const data = await likeService.SetLikes(questionId, jwtData.id)
-            console.log(req.body)
             res.status(data.code).json(data)
         } catch (e) {
             res.status(400).json({

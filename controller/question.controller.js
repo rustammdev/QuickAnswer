@@ -8,14 +8,10 @@ class QuestionController {
             const id = req.params.id
             const data = await QuestionServices.getQuestions(id)
 
-            const isValid = await tokenservice.validateAccess(
-                req.cookies.accessToken,
-            )
-
             res.status(data.code).json({
                 event_id: id,
                 ...data,
-                userId: isValid ? isValid.id : '0',
+                userId: req.userId ? req.userId : '0',
             })
         } catch (e) {
             res.status(400).json({
@@ -29,28 +25,10 @@ class QuestionController {
 
     async sendQuestion(req, res) {
         try {
-            const { username, message } = req.body
-            let jwtData
-            let user
-
-            try {
-                jwtData = jwt.verify(
-                    req.cookies.accessToken,
-                    process.env.JWT_ACCES_SECRET,
-                )
-                user = await RegisterModel.findById(jwtData.id)
-            } catch (e) {
-                user = {
-                    username: 'unknow',
-                }
-            }
-            let data = {
-                event_id: req.params.id,
-                username: user ? user.username : message,
-                message,
-            }
-
-            const question = await QuestionServices.sendQuestion(data)
+            const question = await QuestionServices.sendQuestion(
+                req.body,
+                req.params.id,
+            )
             res.status(question.code).json(question)
         } catch (e) {
             res.status(400).json({

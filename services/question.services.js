@@ -1,6 +1,7 @@
 import QuestionsModel from '../models/questions.model.js'
 import EventModel from '../models/event.model.js'
 import GenerateQuestion from '../ai/open.ai.js'
+import { io } from '../server.js'
 
 class QuestionServices {
     async getQuestions(id) {
@@ -29,13 +30,24 @@ class QuestionServices {
                 return { status: 'fail', code: 404, message: 'Event not found' }
             }
 
-            await QuestionsModel.create(dataObj)
+            const question = await QuestionsModel.create(dataObj)
+            io.emit('sendquestion', {
+                success: true,
+                question,
+            })
+
             return {
                 status: 'success',
                 code: 200,
                 message: 'Question send successfully',
             }
         } catch (e) {
+            io.emit('sendquestion', {
+                status: 'error',
+                code: 400,
+                message: "Question doesn't send",
+                error: e.message,
+            })
             return {
                 status: 'error',
                 code: 400,

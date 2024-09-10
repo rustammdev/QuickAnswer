@@ -17,6 +17,7 @@ const AuthMiddleware = async (req, res, next) => {
         const userData = await tokenServices.validateAccess(accessToken)
         if (userData) {
             req.user = userData
+            req.userId = userData.id
             return next()
         }
     }
@@ -24,13 +25,12 @@ const AuthMiddleware = async (req, res, next) => {
     if (refreshToken) {
         try {
             const userData = await tokenServices.validateRefresh(refreshToken)
-
             if (userData) {
                 const tokens = tokenServices.tokengenerate({
                     username: userData.username,
                     id: userData.id,
                 })
-                req.userID = userData.id
+                req.userId = userData.id
                 await tokenServices.saveToken(userData.id, tokens.refreshToken)
 
                 res.cookie('accessToken', tokens.accessToken, {
@@ -78,4 +78,36 @@ const AuthMiddleware = async (req, res, next) => {
     })
 }
 
-export default AuthMiddleware
+const userId = async (req, res, next) => {
+    const { accessToken, refreshToken } = req.cookies
+
+    if (!accessToken && !refreshToken) {
+        return next()
+    }
+
+    if (accessToken) {
+        const userData = await tokenServices.validateAccess(accessToken)
+        if (userData) {
+            req.userId = userData.id
+            return next()
+        }
+    }
+
+    if (refreshToken) {
+        try {
+            const userData = await tokenServices.validateRefresh(refreshToken)
+            if (userData) {
+                req.userId = userData.id
+
+                req.user = userData
+                return next()
+            }
+            return next()
+        } catch (error) {
+            return next()
+        }
+    }
+    next()
+}
+
+export { AuthMiddleware, userId }

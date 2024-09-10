@@ -4,17 +4,17 @@ import express from 'express'
 const router = express.Router()
 
 // middleware
-import AuthMiddleware from '../middleware/auth.middleware.js'
+import { AuthMiddleware, userId } from '../middleware/auth.middleware.js'
 
 // @desc Get all questions
 // @route GET '/v2/event/:id/questions'
 // @access Only
-router.get('/event/:id/questions', QuestionController.getQuestions)
+router.get('/event/:id/questions', userId, QuestionController.getQuestions)
 
 // @desc Send questions
 // @route POST '/v2/event/:id/questions'
 // @access Public
-router.post('/event/:id/questions', QuestionController.sendQuestion)
+router.post('/event/:id/questions', userId, QuestionController.sendQuestion)
 
 // @desc Send questions
 // @route GET '/v2/event/:id/questions/generate'

@@ -4,7 +4,7 @@ import express from 'express'
 const router = express.Router()
 
 // middleware
-import authMiddleware from '../middleware/auth.middleware.js'
+import { AuthMiddleware } from '../middleware/auth.middleware.js'
 import {
     CopyrightMiddleware,
     DelCopyrightMiddleware,
@@ -17,26 +17,26 @@ router
     // @desc Get all events
     // @route Post '/v2/events'
     // @access Only users and moderators
-    .get('/event', authMiddleware, EventController.getAllEvents)
+    .get('/event', AuthMiddleware, EventController.getAllEvents)
     // @desc Get one Event
     // @route Post '/v2/event/:id'
     // @access Only users and moderators
     .get(
         '/event/:id',
-        authMiddleware,
+        AuthMiddleware,
         CopyrightMiddleware,
         EventController.getEvent,
     )
     // @desc Create Event
     // @route Post '/v2/event/create'
     // @access Only users
-    .post('/event', authMiddleware, validateEvent, EventController.createEvent)
+    .post('/event', AuthMiddleware, validateEvent, EventController.createEvent)
     // @desc Delete Event
     // @route Post '/v2/event/:id'
     // @access Only users
     .delete(
         '/event/:id',
-        authMiddleware,
+        AuthMiddleware,
         CopyrightMiddleware,
         DelCopyrightMiddleware,
         EventController.deleteEvent,
@@ -46,7 +46,7 @@ router
     // @access Only users and moderators
     .put(
         '/event/:id',
-        authMiddleware,
+        AuthMiddleware,
         CopyrightMiddleware,
         EventController.updateEvent,
     )

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import UserController from '../controller/user.controller.js'
-import authMiddleware from '../middleware/auth.middleware.js'
+import { AuthMiddleware } from '../middleware/auth.middleware.js'
 import tokenServices from '../services/token.services.js'
 import { validateRegister, validateUser } from '../validators/validates.js'
 const route = Router()
@@ -14,7 +14,7 @@ route.get('/', UserController.home)
 // @route Post '/api/register'
 // @access Public
 route.post('/register', validateRegister, UserController.register)
-route.get('/verify/:token', UserController.verify)
+route.post('/verify/:token', UserController.verify)
 
 // @desc Login
 // @route Post '/api/login'
@@ -24,13 +24,11 @@ route.post('/login', validateUser, UserController.login)
 // @desc Login
 // @route Post '/api/login'
 // @access Only users
-route.post('/logout', authMiddleware, UserController.logout)
+route.post('/logout', AuthMiddleware, UserController.logout)
 
 route.post('/update-cookie', UserController.updateCokies)
 
-route.get('/auth/check', authMiddleware, async (req, res) => {
-    console.log('ishladi-auth-check')
-    console.log(req.cookies)
+route.get('/auth/check', AuthMiddleware, async (req, res) => {
     res.json({ authenticated: true })
 })
 

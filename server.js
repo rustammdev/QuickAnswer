@@ -20,11 +20,27 @@ export const io = new Server(server, {
         methods: ['GET', 'POST'],
     },
 })
+
+export let clientSocketId = {}
 io.on('connection', (socket) => {
-    console.log('a user connected')
+    console.log('Backend: New connection established')
+
+    socket.on('userId', (userId) => {
+        console.log(`Received user ID: ${userId}`)
+        clientSocketId[userId] = socket.id
+        console.log(clientSocketId)
+    })
 
     socket.on('disconnect', () => {
-        console.log('user disconnected')
+        console.log('Backend: Connection closed')
+
+        // userId orqali socket id ni o'chirish
+        for (let userId in clientSocketId) {
+            if (clientSocketId[userId] === socket.id) {
+                delete clientSocketId[userId]
+                break
+            }
+        }
     })
 })
 

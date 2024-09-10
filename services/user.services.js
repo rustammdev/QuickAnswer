@@ -85,15 +85,31 @@ class UserServices {
                     process.env.USER_DATA,
                 )
 
-                io.emit('emailVerified', {
-                    success: true,
-                    token: userdata,
-                })
+                // // ushbu holatda sorov yuborgan userni o'zigagina yuborish kerak tokenni
+                // // lekin ishlamayapti
+                // io.on('connection', (socket) => {
+                //     socket.emit('email-verified', {
+                //         success: true,
+                //         token: userdata,
+                //     })
+                // })
 
-                return { token: userdata, status: 'success', code: 200 }
+                // // bu holatda token yuborilyapti, faqat  userlarga
+                // io.emit('email-verified', {
+                //     success: true,
+                //     token: userdata,
+                // })
+
+                return {
+                    token: userdata,
+                    status: 'success',
+                    success: true,
+                    code: 200,
+                }
             }
             return { ...verify }
         } catch (e) {
+            console.log(e.message)
             return {
                 status: 'error',
                 code: 500,
@@ -130,6 +146,8 @@ class UserServices {
                 status: 'success',
                 code: 200,
                 message: 'User login.',
+                username: user.username,
+                id: user._id,
                 ...tokens,
             }
         } catch (e) {

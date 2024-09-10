@@ -1,6 +1,8 @@
 import userServices from '../services/user.services.js'
 import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
+import { io } from '../server.js'
+import { clientSocketId } from '../server.js'
 import tokenServices from '../services/token.services.js'
 
 class UserController {
@@ -42,11 +44,16 @@ class UserController {
     async verify(req, res) {
         try {
             const { token } = req.params
+            const { id } = req.body
             const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
 
             const user = await userServices.verifyUser(user_data)
+
+            io.to(clientSocketId[id]).emit('email-verify', user)
+
             return res.status(user.code).json({ ...user })
         } catch (error) {
+            console.log(error.message)
             return res
                 .status(400)
                 .json({ code: 400, status: 'error', message: error.message })
@@ -56,6 +63,7 @@ class UserController {
     async updateCokies(req, res) {
         try {
             const { token } = req.body
+            console.log(req.body)
 
             const user = jwt.verify(token, process.env.USER_DATA)
 
