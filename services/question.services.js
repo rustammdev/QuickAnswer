@@ -2,6 +2,7 @@ import QuestionsModel from '../models/questions.model.js'
 import EventModel from '../models/event.model.js'
 import GenerateQuestion from '../ai/open.ai.js'
 import { io } from '../server.js'
+import { clientSocketId } from '../server.js'
 
 class QuestionServices {
     async getQuestions(id) {
@@ -24,6 +25,7 @@ class QuestionServices {
     async sendQuestion(dataObj) {
         try {
             console.log(dataObj)
+            const id = dataObj.sockedId
             try {
                 await EventModel.findById({ _id: dataObj.event_id })
             } catch (e) {
@@ -31,10 +33,7 @@ class QuestionServices {
             }
 
             const question = await QuestionsModel.create(dataObj)
-            io.emit('sendquestion', {
-                success: true,
-                question,
-            })
+            io.emit('new-question', question)
 
             return {
                 status: 'success',
@@ -42,7 +41,7 @@ class QuestionServices {
                 message: 'Question send successfully',
             }
         } catch (e) {
-            io.emit('sendquestion', {
+            io.to(clientSocketId[id]).io.emit('new-question', {
                 status: 'error',
                 code: 400,
                 message: "Question doesn't send",
