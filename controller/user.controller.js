@@ -48,8 +48,9 @@ class UserController {
             const user_data = jwt.verify(token, process.env.EMAIL_JWT_SECRET)
 
             const user = await userServices.verifyUser(user_data)
-
-            io.to(clientSocketId[id]).emit('email-verify', user)
+            if (user.success) {
+                io.to(clientSocketId[id]).emit('email-verify', user)
+            }
 
             return res.status(user.code).json({ ...user })
         } catch (error) {

@@ -85,23 +85,9 @@ class UserServices {
                     process.env.USER_DATA,
                 )
 
-                // // ushbu holatda sorov yuborgan userni o'zigagina yuborish kerak tokenni
-                // // lekin ishlamayapti
-                // io.on('connection', (socket) => {
-                //     socket.emit('email-verified', {
-                //         success: true,
-                //         token: userdata,
-                //     })
-                // })
-
-                // // bu holatda token yuborilyapti, faqat  userlarga
-                // io.emit('email-verified', {
-                //     success: true,
-                //     token: userdata,
-                // })
-
                 return {
                     token: userdata,
+                    userData: { username: user.username, id: user._id },
                     status: 'success',
                     success: true,
                     code: 200,
@@ -112,6 +98,7 @@ class UserServices {
             console.log(e.message)
             return {
                 status: 'error',
+                success: false,
                 code: 500,
                 message: 'Failed to verify user',
                 error: e.message,
