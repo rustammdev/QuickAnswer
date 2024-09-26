@@ -5,6 +5,18 @@ import jwt from 'jsonwebtoken'
 
 class EventController {
     async createEvent(req, res) {
+        if (!req.file) {
+            return res
+                .status(400)
+                .json({ status: 'fail', message: 'Fayl yuklanmadi' })
+        }
+        const data = {
+            event_name: req.body['eventname'],
+            event_desc: req.body['eventdesc'],
+            imageUrl: `http://localhost:7000/uploads/${req.file.filename}`,
+            end_date: req.body['end_date'],
+        }
+
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json({ code: 400, message: errors.array() })
@@ -12,7 +24,7 @@ class EventController {
 
         const event = await eventServices.createEvent(
             req.cookies.accessToken,
-            req.body,
+            data,
         )
         res.status(event.code).json(event)
     }

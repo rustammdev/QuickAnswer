@@ -115,6 +115,7 @@ class UserController {
             }
 
             const user = await userServices.login(email, password)
+            console.log(user)
             if (user.status == 'success') {
                 res.cookie('accessToken', user.accessToken, {
                     httpOnly: true,

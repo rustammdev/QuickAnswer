@@ -15,6 +15,7 @@ class EventService {
                 id: events._id,
                 username: events.created_by['username'],
                 name: events.created_by['firstname'],
+                imageUrl: events.imageUrl,
                 event_name: events.event_name,
                 desc: events.event_desc,
                 end_data: events.end_date,
@@ -45,7 +46,7 @@ class EventService {
                 status: 'success',
                 code: 200,
                 events,
-                moderators: user.moderators,
+                user_moderators: user.moderators,
             }
         } catch (error) {
             return {
@@ -70,6 +71,7 @@ class EventService {
                 code: 201,
                 message: 'Successfully created',
                 eventId: event._id,
+                eventData: data,
             }
         } catch (error) {
             return {
@@ -147,6 +149,7 @@ class EventService {
                     desc: events[i].event_desc,
                     end_data: events[i].end_date,
                     created: events[i].createdAt,
+                    imageUrl: events[i].imageUrl,
                 }
 
                 Eventdata.push(data)

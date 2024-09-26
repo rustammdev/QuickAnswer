@@ -5,7 +5,11 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import { Server } from 'socket.io'
 import http from 'http'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
+const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
+const __dirname = path.dirname(__filename)
 // route
 import MainRoute from './routes/main.route.js'
 import EventRoute from './routes/event.route.js'
@@ -20,6 +24,9 @@ export const io = new Server(server, {
         methods: ['GET', 'POST'],
     },
 })
+
+// Statik fayllar uchun serverni sozlash
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 export let clientSocketId = {}
 io.on('connection', (socket) => {

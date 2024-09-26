@@ -2,9 +2,9 @@ import tokenServices from '../services/token.services.js'
 
 const AuthMiddleware = async (req, res, next) => {
     const { accessToken, refreshToken } = req.cookies
-
+    console.log(req.cookies)
     if (!accessToken && !refreshToken) {
-        console.log('xato')
+        console.log('Tokenlar mavjud emas')
         // redirect login
         return res.status(401).json({
             status: 'fail',
@@ -20,6 +20,7 @@ const AuthMiddleware = async (req, res, next) => {
             req.userId = userData.id
             return next()
         }
+        console.log('Access token yaroqsiz')
     }
 
     if (refreshToken) {
@@ -56,12 +57,15 @@ const AuthMiddleware = async (req, res, next) => {
                 req.user = userData
                 return next()
             }
+            console.log('Refresh token expired.')
             return res.status(401).json({
                 status: 'fail',
                 message: 'Refresh token expired.',
                 authenticated: false,
             })
         } catch (error) {
+            console.log('Invalid refresh token')
+
             // redirect login
             return res.status(401).json({
                 status: 'error',

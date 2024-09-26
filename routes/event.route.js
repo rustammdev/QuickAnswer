@@ -9,7 +9,7 @@ import {
     CopyrightMiddleware,
     DelCopyrightMiddleware,
 } from '../middleware/copyright.middleware.js'
-
+import { upload } from '../services/upload.service.js'
 router
     // Global
     .get('/events', EventController.globalEvents)
@@ -30,7 +30,12 @@ router
     // @desc Create Event
     // @route Post '/v2/event/create'
     // @access Only users
-    .post('/event', AuthMiddleware, validateEvent, EventController.createEvent)
+    .post(
+        '/event',
+        AuthMiddleware,
+        upload.single('image'),
+        EventController.createEvent,
+    )
     // @desc Delete Event
     // @route Post '/v2/event/:id'
     // @access Only users
